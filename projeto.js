@@ -1,29 +1,69 @@
 let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
 let filtroAtual = localStorage.getItem("filtro") || "todas";
 
-// Elementos
-const inputTarefa = document.getElementById("tarefa");
-const selectPrioridade = document.getElementById("prioridade");
-const inputHorario = document.getElementById("horarioTarefa");
-const selectCategoria = document.getElementById("categoria");
-const inputFavorita = document.getElementById("favorita");
-const contador = document.getElementById("contador");
-const lista = document.getElementById("lista");
-const btnAdicionar = document.getElementById("btnAdicionar");
-const relogio = document.getElementById("relogio");
-const modalOverlay = document.getElementById("modal-overlay");
+// ── Elementos do DOM ──────────────────────────
+const el = {
+  tarefa:       document.getElementById("tarefa"),
+  prioridade:   document.getElementById("prioridade"),
+  horario:      document.getElementById("horarioTarefa"),
+  data:         document.getElementById("dataTarefa"),
+  descricao:    document.getElementById("descricao"),
+  categoria:    document.getElementById("categoria"),
+  favorita:     document.getElementById("favorita"),
+  contador:     document.getElementById("contador"),
+  lista:        document.getElementById("lista"),
+  btnAdicionar: document.getElementById("btnAdicionar"),
+  relogio:      document.getElementById("relogio"),
+  modal:        document.getElementById("modal-overlay")
+};
+// ─────────────────────────────────────────────
 
 // Inicialização
-btnAdicionar.addEventListener("click", adicionarTarefa);
+el.btnAdicionar.addEventListener("click", adicionarTarefa);
+pedirPermissaoNotificacao();
 atualizarLista();
+
+// Pedir permissão para notificações
+function pedirPermissaoNotificacao() {
+  if ("Notification" in window) {
+    Notification.requestPermission();
+  }
+}
+
+// Verificar tarefas no horário
+function verificarNotificacoes() {
+  if (Notification.permission !== "granted") return;
+
+  const agora = new Date();
+  const horaAtual = agora.getHours().toString().padStart(2, "0") +
+                    ":" +
+                    agora.getMinutes().toString().padStart(2, "0");
+  const dataAtual = agora.toISOString().split("T")[0];
+
+  tarefas.forEach(tarefa => {
+    const horarioOk = tarefa.horarioTarefa === horaAtual;
+    const dataOk = !tarefa.dataTarefa || tarefa.dataTarefa === dataAtual;
+
+    if (horarioOk && dataOk && !tarefa.concluida && !tarefa.notificada) {
+      new Notification("⏰ Hora de realizar sua tarefa!", {
+        body: `📌 ${tarefa.texto}\n📂 ${tarefa.categoria}${tarefa.descricao ? "\n📝 " + tarefa.descricao : ""}`,
+        icon: "https://cdn-icons-png.flaticon.com/512/1827/1827504.png"
+      });
+      tarefa.notificada = true;
+      salvarDados();
+    }
+  });
+}
 
 // Adicionar tarefa
 function adicionarTarefa() {
-  let texto = inputTarefa.value.trim();
-  let prioridade = parseInt(selectPrioridade.value);
-  let horarioTarefa = inputHorario.value;
-  let categoria = selectCategoria.value;
-  let favorita = inputFavorita.checked;
+  let texto      = el.tarefa.value.trim();
+  let prioridade = parseInt(el.prioridade.value);
+  let horarioTarefa = el.horario.value;
+  let dataTarefa = el.data.value;
+  let descricao  = el.descricao.value.trim();
+  let categoria  = el.categoria.value;
+  let favorita   = el.favorita.checked;
 
   if (texto === "") {
     alert("Digite uma tarefa!");
@@ -40,16 +80,21 @@ function adicionarTarefa() {
     prioridade,
     categoria,
     favorita,
+    descricao,
     concluida: false,
+    notificada: false,
     horario: new Date().toLocaleTimeString(),
-    horarioTarefa: horarioTarefa
+    horarioTarefa: horarioTarefa,
+    dataTarefa: dataTarefa
   });
 
   salvarDados();
 
-  inputTarefa.value = "";
-  inputHorario.value = "";
-  inputFavorita.checked = false;
+  el.tarefa.value      = "";
+  el.horario.value     = "";
+  el.data.value        = "";
+  el.descricao.value   = "";
+  el.favorita.checked  = false;
 
   atualizarLista();
 }
@@ -62,9 +107,25 @@ function ordenarTarefas() {
   });
 }
 
+// Formatar data para exibição
+function formatarData(data) {
+  if (!data) return "Sem data";
+  const dias = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+  const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+
+  const [ano, mes, dia] = data.split("-");
+  const dataObj = new Date(ano, mes - 1, dia);
+
+  const nomeDia = dias[dataObj.getDay()];
+  const nomeMes = meses[dataObj.getMonth()];
+
+  return `${nomeDia}, ${dia} de ${nomeMes} de ${ano}`;
+}
+
+
 // Atualizar lista
 function atualizarLista() {
-  lista.innerHTML = "";
+  el.lista.innerHTML = "";
   ordenarTarefas();
 
   tarefas.forEach((tarefa, i) => {
@@ -84,7 +145,10 @@ function atualizarLista() {
         ${tarefa.texto}
       </strong><br><br>
 
+      ${tarefa.descricao ? `<em style="color:#aaa; font-size:13px;">📝 ${tarefa.descricao}</em><br><br>` : ""}
+
       <strong>🕒 Adicionada:</strong> ${tarefa.horario}<br>
+      <strong>📅 Data:</strong> ${formatarData(tarefa.dataTarefa)}<br>
       <strong>⏰ Realizar:</strong> ${tarefa.horarioTarefa || "Sem horário"}<br>
       <strong>📂 Categoria:</strong> ${tarefa.categoria}<br>
 
@@ -104,7 +168,7 @@ function atualizarLista() {
       </div>
     `;
 
-    lista.appendChild(div);
+    el.lista.appendChild(div);
   });
 
   mostrarContador();
@@ -157,7 +221,7 @@ function apagarTudo() {
     alert("Não há tarefas para apagar!");
     return;
   }
-  modalOverlay.style.display = "flex";
+  el.modal.style.display = "flex";
 }
 
 // Confirmar apagar tudo
@@ -170,23 +234,23 @@ function confirmarApagarTudo() {
 
 // Fechar modal
 function fecharModal() {
-  modalOverlay.style.display = "none";
+  el.modal.style.display = "none";
 }
 
 // Fechar modal clicando fora
-modalOverlay.addEventListener("click", function (e) {
-  if (e.target === modalOverlay) fecharModal();
+el.modal.addEventListener("click", function (e) {
+  if (e.target === el.modal) fecharModal();
 });
 
 // Contador
 function mostrarContador() {
-  let total = tarefas.length;
+  let total      = tarefas.length;
   let concluidas = tarefas.filter(t => t.concluida).length;
-  let favoritas = tarefas.filter(t => t.favorita).length;
+  let favoritas  = tarefas.filter(t => t.favorita).length;
 
-  relogio.innerHTML = `🕒 ${new Date().toLocaleTimeString()}`;
+  el.relogio.innerHTML = `🕒 ${new Date().toLocaleTimeString()}`;
 
-  contador.innerHTML = `
+  el.contador.innerHTML = `
     📊 Total: ${total}<br>
     ✔ Concluídas: ${concluidas}<br>
     ⭐ Favoritas: ${favoritas}
@@ -198,5 +262,6 @@ function salvarDados() {
   localStorage.setItem("tarefas", JSON.stringify(tarefas));
 }
 
-// Relógio
+// Relógio e verificação de notificações
 setInterval(mostrarContador, 1000);
+setInterval(verificarNotificacoes, 60000);
