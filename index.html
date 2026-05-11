@@ -3,90 +3,313 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gerenciador de Tarefas</title>
+  <meta name="description" content="TaskBoard — Gerenciador de tarefas moderno e eficiente">
+  <title>TaskBoard — Gerenciador de Tarefas</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="projeto.css">
 </head>
-
 <body>
 
-  <header>
-    <h1>📋 Gerenciador de Tarefas</h1>
+  <!-- ===== HEADER ===== -->
+  <header class="app-header" role="banner">
+    <div class="logo" aria-label="TaskBoard logo">
+      <div class="logo-icon" aria-hidden="true">📋</div>
+      <h1>TaskBoard</h1>
+    </div>
+
+    <div class="header-center">
+      <div class="search-wrapper" role="search">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input
+          type="search"
+          id="searchInput"
+          class="search-input"
+          placeholder="Buscar tarefa..."
+          autocomplete="off"
+          aria-label="Buscar tarefas"
+        >
+        <button class="search-clear" id="searchClearBtn" aria-label="Limpar busca" hidden>✕</button>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="stats-pill" role="status" aria-live="polite" aria-label="Estatísticas das tarefas">
+        <span class="stat-item">
+          <span class="stat-icon" aria-hidden="true">📊</span>
+          Total: <strong id="stat-total">0</strong>
+        </span>
+        <span class="stat-divider" aria-hidden="true"></span>
+        <span class="stat-item">
+          <span class="stat-icon" aria-hidden="true">✔</span>
+          Feitas: <strong id="stat-done">0</strong>
+        </span>
+        <span class="stat-divider" aria-hidden="true"></span>
+        <span class="stat-item">
+          <span class="stat-icon" aria-hidden="true">⭐</span>
+          Favoritas: <strong id="stat-fav">0</strong>
+        </span>
+      </div>
+      <time class="clock" id="clock" aria-label="Hora atual">00:00:00</time>
+    </div>
   </header>
 
-  <main class="layout">
+  
+  <div class="layout">
 
-    <section class="painel">
-      <h2>Nova Tarefa</h2>
+    
+    <aside class="sidebar" aria-label="Painel de controle">
 
-      <input type="text" id="tarefa" placeholder="Digite uma tarefa">
+      <!-- NOVA TAREFA -->
+      <section class="sidebar-section" aria-labelledby="form-section-title">
+        <h2 class="section-label" id="form-section-title">Nova Tarefa</h2>
 
-      <label for="horarioTarefa">Horário da tarefa</label>
-      <input type="time" id="horarioTarefa">
+        <div class="form-group">
+          <label class="form-label" for="taskTitle">Título <span class="required" aria-hidden="true">*</span></label>
+          <input
+            type="text"
+            id="taskTitle"
+            class="form-input"
+            placeholder="Descreva a tarefa..."
+            maxlength="120"
+            autocomplete="off"
+            aria-required="true"
+            aria-describedby="titleHint"
+          >
+          <span id="titleHint" class="char-counter" aria-live="polite">0/120</span>
+        </div>
 
-      <label for="dataTarefa">Data da tarefa</label>
-      <input type="date" id="dataTarefa">
+        <div class="form-group">
+          <label class="form-label" for="imgInput">Imagem <span class="optional">(opcional)</span></label>
+          <div class="img-upload-area" id="imgUploadArea" role="button" tabindex="0" aria-label="Área de upload de imagem">
+            <input type="file" id="imgInput" accept="image/*" aria-label="Selecionar imagem">
+            <div class="img-upload-placeholder" id="imgPlaceholder" aria-hidden="true">
+              <span class="upload-icon">🖼</span>
+              <p>Clique ou arraste uma imagem</p>
+              <small>PNG, JPG, WEBP — máx. 5MB</small>
+            </div>
+            <img id="imgPreview" class="img-preview" style="display:none" alt="Pré-visualização da imagem">
+            <button type="button" class="img-clear-btn" id="imgClearBtn" aria-label="Remover imagem" hidden>✕</button>
+          </div>
+          <p id="imgError" class="field-error" role="alert" hidden></p>
+        </div>
 
-      <label for="descricao">Observação</label>
-      <input type="text" id="descricao" placeholder="Detalhe opcional da tarefa">
+        <div class="form-group">
+          <fieldset>
+            <legend class="form-label">Prioridade</legend>
+            <div class="priority-selector" role="radiogroup" aria-label="Selecionar prioridade">
+              <button type="button" class="priority-btn active" data-priority="1" aria-pressed="true" aria-label="Alta prioridade">
+                <span class="dot" aria-hidden="true"></span> Alta
+              </button>
+              <button type="button" class="priority-btn" data-priority="2" aria-pressed="false" aria-label="Média prioridade">
+                <span class="dot" aria-hidden="true"></span> Média
+              </button>
+              <button type="button" class="priority-btn" data-priority="3" aria-pressed="false" aria-label="Baixa prioridade">
+                <span class="dot" aria-hidden="true"></span> Baixa
+              </button>
+            </div>
+          </fieldset>
+        </div>
 
-      <select id="prioridade">
-        <option value="1">🔴 Importante</option>
-        <option value="2">🟡 Média</option>
-        <option value="3">🟢 Baixa</option>
-      </select>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="taskTime">Horário</label>
+            <input type="time" id="taskTime" class="form-input" aria-label="Horário para realizar a tarefa">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="taskDate">Data</label>
+            <input type="date" id="taskDate" class="form-input" aria-label="Data para realizar a tarefa">
+          </div>
+        </div>
 
-      <label>Categoria</label>
-      <select id="categoria">
-        <option value="📚 Escola">📚 Escola</option>
-        <option value="💼 Trabalho">💼 Trabalho</option>
-        <option value="🏠 Casa">🏠 Casa</option>
-        <option value="✒️ Outros">✒️ Outros</option>
-      </select>
+        <div class="form-group">
+          <label class="form-label" for="taskCategory">Categoria</label>
+          <select id="taskCategory" class="form-input form-select" aria-label="Categoria da tarefa">
+            <option value="📚 Escola">📚 Escola</option>
+            <option value="💼 Trabalho">💼 Trabalho</option>
+            <option value="🏠 Casa">🏠 Casa</option>
+            <option value="💪 Saúde">💪 Saúde</option>
+            <option value="💰 Finanças">💰 Finanças</option>
+            <option value="✒️ Outros">✒️ Outros</option>
+          </select>
+        </div>
 
-      <div style="display: flex; align-items: center; gap: 8px; margin: 8px 0;">
-        <input type="checkbox" id="favorita" style="width: 18px; height: 18px; margin: 0; cursor: pointer;">
-        <label for="favorita" style="margin: 0; cursor: pointer; font-size: 14px;">⭐ Favoritar tarefa</label>
+        <div class="form-group">
+          <label class="fav-toggle" id="favToggle" for="taskFavorite">
+            <input type="checkbox" id="taskFavorite" aria-label="Marcar como favorita">
+            <span class="fav-star" aria-hidden="true">⭐</span>
+            <span id="favLabel">Marcar como favorita</span>
+          </label>
+        </div>
+
+        <button type="button" class="btn-add" id="btnAdd" aria-label="Adicionar nova tarefa">
+          <span class="btn-icon" aria-hidden="true">+</span> Adicionar Tarefa
+        </button>
+      </section>
+
+      
+      <section class="sidebar-section" aria-labelledby="filter-section-title">
+        <h2 class="section-label" id="filter-section-title">Filtros</h2>
+
+        <div class="filters" role="group" aria-label="Filtrar por prioridade">
+          <button type="button" class="filter-btn active" data-filter="todas">Todas</button>
+          <button type="button" class="filter-btn" data-filter="1">🔴 Alta</button>
+          <button type="button" class="filter-btn" data-filter="2">🟡 Média</button>
+          <button type="button" class="filter-btn" data-filter="3">🟢 Baixa</button>
+          <button type="button" class="filter-btn" data-filter="favorites">⭐ Fav</button>
+          <button type="button" class="filter-btn" data-filter="pending">⏳ Pendentes</button>
+          <button type="button" class="filter-btn" data-filter="done">✔ Concluídas</button>
+        </div>
+
+        <div class="form-group" style="margin-top:12px">
+          <label class="form-label" for="sortSelect">Ordenar por</label>
+          <select id="sortSelect" class="form-input form-select" aria-label="Ordenar tarefas">
+            <option value="default">Padrão (Fav → Prioridade)</option>
+            <option value="az">A → Z</option>
+            <option value="za">Z → A</option>
+            <option value="date_asc">Data ↑</option>
+            <option value="date_desc">Data ↓</option>
+            <option value="priority_asc">Prioridade ↑</option>
+          </select>
+        </div>
+      </section>
+
+      
+      <section class="sidebar-section sidebar-section--danger" aria-labelledby="danger-section-title">
+        <h2 class="section-label" id="danger-section-title">Zona de Perigo</h2>
+        <button type="button" class="btn-danger" id="btnClearDone" aria-label="Apagar tarefas concluídas">
+          🧹 Limpar concluídas
+        </button>
+        <button type="button" class="btn-danger" id="btnDeleteAll" aria-label="Apagar todas as tarefas">
+          🗑 Apagar todas as tarefas
+        </button>
+      </section>
+
+    </aside>
+
+    
+    <main class="task-area" aria-label="Lista de tarefas">
+      <div class="tasks-header">
+        <h2 class="tasks-title">Lista de Tarefas</h2>
+        <div class="tasks-header-right">
+          <span class="tasks-count-badge" id="tasksCountBadge" role="status" aria-live="polite">0 tarefas</span>
+          <button type="button" class="view-toggle" id="viewToggleBtn" aria-label="Alternar visualização" title="Alternar grade/lista">
+            <span id="viewToggleIcon">☰</span>
+          </button>
+        </div>
       </div>
 
-      <button id="btnAdicionar">Adicionar</button>
-
-      <div class="filtros">
-        <button onclick="filtrarTarefas('todas')">Todas</button>
-        <button onclick="filtrarTarefas('1')">Importante</button>
-        <button onclick="filtrarTarefas('2')">Média</button>
-        <button onclick="filtrarTarefas('3')">Baixa</button>
+      
+      <div class="progress-bar-wrapper" aria-label="Progresso das tarefas">
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+        </div>
+        <span class="progress-label" id="progressLabel">0% concluído</span>
       </div>
 
-      <button class="btn-apagar-tudo" onclick="apagarTudo()">🗑 Apagar Todas as Tarefas</button>
+      <div id="taskList" class="task-list task-list--grid" role="list" aria-label="Tarefas"></div>
+    </main>
 
-      <div id="contador" style="margin-top:10px; font-weight:bold;"></div>
+  </div>
 
-    </section>
+  <!-- ===== TOAST NOTIFICATIONS ===== -->
+  <div id="toastContainer" class="toast-container" role="region" aria-label="Notificações" aria-live="polite"></div>
 
-    <section class="tarefas">
-      <h2>Lista de Tarefas</h2>
-      <div id="lista"></div>
-    </section>
-
-  </main>
-
-  <!-- MODAL DE CONFIRMAÇÃO -->
-  <div id="modal-overlay" class="modal-overlay" style="display:none;">
+  
+  <div id="modalDeleteAll" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalDeleteTitle" aria-describedby="modalDeleteDesc" hidden>
     <div class="modal">
-      <h3>⚠️ Atenção!</h3>
-      <p>Tem certeza que deseja apagar <strong>todas as tarefas</strong>? Essa ação não pode ser desfeita.</p>
-      <div class="modal-botoes">
-        <button class="btn-confirmar" onclick="confirmarApagarTudo()">✔ Sim, apagar tudo</button>
-        <button class="btn-cancelar" onclick="fecharModal()">✖ Cancelar</button>
+      <div class="modal-icon" aria-hidden="true">🗑</div>
+      <h3 id="modalDeleteTitle">Apagar tudo?</h3>
+      <p id="modalDeleteDesc">Todas as tarefas serão removidas permanentemente. Esta ação não pode ser desfeita.</p>
+      <div class="modal-actions">
+        <button type="button" class="modal-btn modal-btn-confirm" id="modalDeleteConfirm">Sim, apagar tudo</button>
+        <button type="button" class="modal-btn modal-btn-cancel" id="modalDeleteCancel">Cancelar</button>
       </div>
     </div>
   </div>
 
-  <footer>
-    <div id="relogio"></div>
+  
+  <div id="modalEdit" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalEditTitle" hidden>
+    <div class="modal modal--wide">
+      <h3 id="modalEditTitle">✏️ Editar Tarefa</h3>
+      <div class="modal-body">
+
+        <div class="form-group">
+          <label class="form-label" for="editTitle">Título</label>
+          <input type="text" id="editTitle" class="form-input" maxlength="120" aria-required="true">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="editTime">Horário</label>
+            <input type="time" id="editTime" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="editDate">Data</label>
+            <input type="date" id="editDate" class="form-input">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="editCategory">Categoria</label>
+          <select id="editCategory" class="form-input form-select">
+            <option value="📚 Escola">📚 Escola</option>
+            <option value="💼 Trabalho">💼 Trabalho</option>
+            <option value="🏠 Casa">🏠 Casa</option>
+            <option value="💪 Saúde">💪 Saúde</option>
+            <option value="💰 Finanças">💰 Finanças</option>
+            <option value="✒️ Outros">✒️ Outros</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="editPriority">Prioridade</label>
+          <select id="editPriority" class="form-input form-select">
+            <option value="1">🔴 Alta</option>
+            <option value="2">🟡 Média</option>
+            <option value="3">🟢 Baixa</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="editImgInput">Imagem (opcional)</label>
+          <div class="img-upload-area" id="editImgArea" role="button" tabindex="0">
+            <input type="file" id="editImgInput" accept="image/*" aria-label="Selecionar nova imagem">
+            <div class="img-upload-placeholder" id="editImgPlaceholder" aria-hidden="true">
+              <span class="upload-icon">🖼</span>
+              <p>Clique para alterar a imagem</p>
+            </div>
+            <img id="editImgPreview" class="img-preview" style="display:none" alt="Pré-visualização">
+            <button type="button" class="img-clear-btn" id="editImgClearBtn" aria-label="Remover imagem" hidden>✕</button>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-actions modal-actions--right">
+        <button type="button" class="modal-btn modal-btn-cancel" id="modalEditCancel">Cancelar</button>
+        <button type="button" class="modal-btn modal-btn-save" id="modalEditSave">Salvar alterações</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: Confirmar apagar concluídas ===== -->
+  <div id="modalClearDone" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalClearTitle" hidden>
+    <div class="modal">
+      <div class="modal-icon" aria-hidden="true">🧹</div>
+      <h3 id="modalClearTitle">Limpar concluídas?</h3>
+      <p>Todas as tarefas marcadas como concluídas serão removidas.</p>
+      <div class="modal-actions">
+        <button type="button" class="modal-btn modal-btn-confirm" id="modalClearConfirm">Sim, limpar</button>
+        <button type="button" class="modal-btn modal-btn-cancel" id="modalClearCancel">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="app-footer" role="contentinfo">
+    Made with ❤️ — TaskBoard © <span id="footerYear"></span>
   </footer>
 
-  <script src="projeto.js"></script>
-
+  <script src="projeto.js" type="module"></script>
 </body>
 </html>
