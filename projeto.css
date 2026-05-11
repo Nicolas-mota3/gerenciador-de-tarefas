@@ -48,6 +48,13 @@
 
   /* Transições */
   --transition:  0.2s cubic-bezier(.4,0,.2,1);
+
+  /* Animações dos cards */
+  --hover-lift:    -6px;
+  --hover-scale:   1.015;
+  --spring:        0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out:      0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --shimmer-color: rgba(108, 99, 255, 0.08);
 }
 
 /* ── BASE ─────────────────────────────────────────────────── */
@@ -659,30 +666,74 @@ fieldset { border: none; padding: 0; margin: 0; }
   border: 1px solid var(--border);
   border-radius: var(--r);
   overflow: hidden;
-  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition), opacity var(--transition);
+  /* Transição enriquecida com spring */
+  transition:
+    border-color  var(--ease-out),
+    transform     var(--spring),
+    box-shadow    var(--spring),
+    opacity       var(--ease-out);
   position: relative;
   display: flex;
   flex-direction: column;
-  animation: cardIn 0.3s ease both;
+  animation: cardIn 0.35s ease both;
   will-change: transform;
+  /* Necessário para o shimmer ficar contido */
+  isolation: isolate;
 }
 
-@keyframes cardIn {
-  from { opacity: 0; transform: translateY(10px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0)    scale(1); }
+/* Shimmer — brilho que atravessa o card no hover */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    var(--shimmer-color) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  background-position: 200% 0;
+  transition: background-position 0.6s ease;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: inherit;
 }
 
+.card:hover::before {
+  background-position: -200% 0;
+}
+
+/* Hover principal: elevação com spring + glow */
 .card:hover {
   border-color: var(--border2);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(var(--hover-lift)) scale(var(--hover-scale));
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.45),
+    0 0 0 1px var(--border2),
+    0 0 24px var(--accent-glow);
 }
 
 .card.is-done { opacity: 0.45; }
-.card.is-done:hover { opacity: 0.65; }
+.card.is-done:hover {
+  opacity: 0.65;
+  transform: translateY(-3px) scale(1.008);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
 
 /* Priority strip */
-.card-strip { height: 4px; width: 100%; flex-shrink: 0; }
+.card-strip {
+  height: 4px;
+  width: 100%;
+  flex-shrink: 0;
+  transition: height var(--spring), width var(--spring);
+}
+
+/* Strip cresce no hover (modo grade) */
+.task-list--grid .card:hover .card-strip {
+  height: 6px;
+}
+
 .card.alta  .card-strip { background: var(--red); }
 .card.media .card-strip { background: var(--yellow); }
 .card.baixa .card-strip { background: var(--green); }
@@ -695,6 +746,15 @@ fieldset { border: none; padding: 0; margin: 0; }
   display: block;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
+  /* Zoom suave no hover */
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              filter 0.4s ease;
+  transform-origin: center center;
+}
+
+.card:hover .card-image {
+  transform: scale(1.05);
+  filter: brightness(1.08) saturate(1.1);
 }
 
 /* Card body */
@@ -721,6 +781,13 @@ fieldset { border: none; padding: 0; margin: 0; }
   line-height: 1.4;
   flex: 1;
   word-break: break-word;
+  transition: color var(--ease-out), letter-spacing var(--ease-out);
+}
+
+/* Título muda para accent no hover */
+.card:hover .card-title:not(.is-done-text) {
+  color: var(--accent2);
+  letter-spacing: 0.1px;
 }
 
 .card-title.is-done-text {
@@ -728,11 +795,19 @@ fieldset { border: none; padding: 0; margin: 0; }
   color: var(--text3);
 }
 
+/* Estrela favorita: rotação + brilho no hover */
 .card-fav-star {
   color: var(--yellow);
   font-size: 14px;
   flex-shrink: 0;
   line-height: 1.4;
+  display: inline-block;
+  transition: transform var(--spring), filter var(--ease-out);
+}
+
+.card:hover .card-fav-star {
+  transform: scale(1.35) rotate(-8deg);
+  filter: drop-shadow(0 0 6px rgba(255, 194, 62, 0.7));
 }
 
 .card-meta {
@@ -768,7 +843,15 @@ fieldset { border: none; padding: 0; margin: 0; }
   font-size: 10px;
   font-weight: 500;
   white-space: nowrap;
+  transition: transform var(--spring), box-shadow var(--ease-out);
 }
+
+/* Badges sobem com sombra colorida no hover */
+.card:hover .badge { transform: translateY(-1px); }
+.card:hover .badge-alta  { box-shadow: 0 2px 8px rgba(255, 90,  90,  0.3); }
+.card:hover .badge-media { box-shadow: 0 2px 8px rgba(255, 194, 62,  0.3); }
+.card:hover .badge-baixa { box-shadow: 0 2px 8px rgba(78,  203, 141, 0.3); }
+.card:hover .badge-cat   { box-shadow: 0 2px 8px rgba(0,   0,   0,   0.2); }
 
 .badge-alta   { background: var(--red-bg);    color: var(--red); }
 .badge-media  { background: var(--yellow-bg); color: var(--yellow); }
@@ -782,6 +865,18 @@ fieldset { border: none; padding: 0; margin: 0; }
   grid-template-columns: 1fr 1fr;
   gap: 5px;
   padding: 0 14px 13px;
+  transition: opacity var(--ease-out), transform var(--ease-out);
+}
+
+/* Em grade: botões surgem suavemente ao hover */
+.task-list--grid .card-actions {
+  opacity: 0.7;
+  transform: translateY(3px);
+}
+
+.task-list--grid .card:hover .card-actions {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .card-btn {
@@ -793,19 +888,53 @@ fieldset { border: none; padding: 0; margin: 0; }
   font-family: var(--font-body);
   font-size: 11px;
   cursor: pointer;
-  transition: all var(--transition);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
+  transition:
+    background    var(--ease-out),
+    border-color  var(--ease-out),
+    color         var(--ease-out),
+    transform     var(--spring),
+    box-shadow    var(--ease-out);
 }
 
-.card-btn:hover { border-color: var(--accent); color: var(--text); background: rgba(108,99,255,0.1); }
+/* Delay escalonado para cada botão */
+.card-actions .card-btn:nth-child(1) { transition-delay: 0ms; }
+.card-actions .card-btn:nth-child(2) { transition-delay: 30ms; }
+.card-actions .card-btn:nth-child(3) { transition-delay: 60ms; }
+.card-actions .card-btn:nth-child(4) { transition-delay: 90ms; }
 
-.card-btn.is-fav.active  { background: rgba(255,194,62,0.12); border-color: var(--yellow); color: var(--yellow); }
-.card-btn.is-done.active { background: var(--green-bg);       border-color: var(--green);  color: var(--green); }
+.card-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
+  background: rgba(108,99,255,0.1);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.card-btn:active {
+  transform: scale(0.96);
+  box-shadow: none;
+}
+
+.card-btn.is-fav.active  {
+  background: rgba(255,194,62,0.12);
+  border-color: var(--yellow);
+  color: var(--yellow);
+  /* Pulso dourado contínuo quando favoritado */
+  animation: favPulse 2.5s ease-in-out infinite;
+}
+
+.card-btn.is-done.active { background: var(--green-bg); border-color: var(--green); color: var(--green); }
 .card-btn.is-del         { border-color: rgba(255,90,90,0.2); }
 .card-btn.is-del:hover   { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+
+@keyframes favPulse {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(255, 194, 62, 0.4); }
+  50%       { box-shadow: 0 0 0 6px rgba(255, 194, 62, 0); }
+}
 
 /* ── LIST VIEW ADJUSTMENTS ────────────────────────────────── */
 .task-list--list .card {
@@ -817,6 +946,11 @@ fieldset { border: none; padding: 0; margin: 0; }
   width: 4px;
   height: auto;
   flex-shrink: 0;
+}
+
+/* Strip cresce no hover (modo lista) */
+.task-list--list .card:hover .card-strip {
+  width: 6px;
 }
 
 .task-list--list .card-image {
@@ -910,7 +1044,6 @@ fieldset { border: none; padding: 0; margin: 0; }
   padding: 20px;
 }
 
-/* Hide/show modals via `hidden` attribute */
 .modal-overlay[hidden] { display: none; }
 
 .modal {
@@ -977,6 +1110,19 @@ fieldset { border: none; padding: 0; margin: 0; }
 }
 
 /* ── ANIMATIONS ───────────────────────────────────────────── */
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.94);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   25%       { transform: translateX(-6px); }
@@ -1030,4 +1176,22 @@ fieldset { border: none; padding: 0; margin: 0; }
   .task-list--list .card-strip { width: 100%; height: 4px; }
   .task-list--list .card-actions { grid-template-columns: 1fr 1fr; border-left: none; border-top: 1px solid var(--border); }
   .stats-pill .stat-divider { display: none; }
+}
+
+/* ── TOUCH (MOBILE): FEEDBACK AO TOQUE ───────────────────── */
+@media (hover: none) {
+  .card:active {
+    transform: scale(0.98);
+    box-shadow: 0 4px 20px rgba(108, 99, 255, 0.2);
+    border-color: var(--accent);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  }
+
+  .card-btn:active {
+    transform: scale(0.92);
+    background: var(--surface3);
+  }
+
+  /* Shimmer não funciona em touch — remove */
+  .card::before { display: none; }
 }
