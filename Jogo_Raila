@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>✨ Studio Girassol✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --rose:#ff4d8f;--rose2:#ff1a6e;--rose3:#ff80b3;--rose4:#ffe0ee;
+  --violet:#a259ff;--violet2:#7c3aed;--violet3:#c4b5fd;--violet4:#f3eeff;
+  --gold:#ffd700;--gold2:#ffb800;
+  --deep:#1e0033;--deep2:#2d0050;--deep3:#3d006e;
+  --card:#fff;--card2:rgba(255,255,255,.97);
+  --text:#2d0050;--text2:#7a4a9a;--text3:#bfa0cf;
+  --shadow:0 8px 40px rgba(162,89,255,.18);
+  --shadow2:0 2px 16px rgba(255,77,143,.15);
+  --r:20px;--r2:28px;--r3:50px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Poppins',sans-serif;background:var(--deep)}
+.screen{position:fixed;inset:0;display:none;overflow:hidden}
+.screen.active{display:flex;flex-direction:column}
+.fx-in{animation:fxIn .38s cubic-bezier(.22,1,.36,1)}
+@keyframes fxIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* HOME */
+#screen-home{background:radial-gradient(ellipse at 60% 20%,#6b00b8 0%,var(--deep2) 50%,var(--deep) 100%);align-items:center;justify-content:center;}
+.home-stars{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.star{position:absolute;border-radius:50%;background:white;animation:pulse var(--d,3s) var(--dl,0s) ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.1;transform:scale(.6)}50%{opacity:.9;transform:scale(1.2)}}
+.home-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:22px;padding:32px 24px;text-align:center;max-width:400px;width:100%}
+.logo-badge{background:linear-gradient(135deg,var(--rose),var(--violet));border-radius:24px;padding:18px 32px;box-shadow:0 8px 40px rgba(162,89,255,.5),0 0 0 1px rgba(255,255,255,.15)}
+.logo-title{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:#fff;text-shadow:0 2px 24px rgba(255,77,143,.6);line-height:1.1;letter-spacing:-1px}
+.logo-sub{font-size:.85rem;font-weight:500;color:rgba(255,255,255,.75);letter-spacing:2px;text-transform:uppercase;margin-top:6px}
+.home-dolls{display:flex;gap:20px;align-items:flex-end;justify-content:center;filter:drop-shadow(0 12px 32px rgba(255,77,143,.4))}
+.home-doll-wrap{animation:floatD 3.5s ease-in-out infinite}
+.home-doll-wrap:nth-child(2){animation-delay:1.75s}
+
+/* BUTTONS */
+.btn{font-family:'Poppins',sans-serif;cursor:pointer;border:none;transition:transform .15s,box-shadow .15s;touch-action:manipulation}
+.btn:active{transform:scale(.95)}
+.btn-main{background:linear-gradient(135deg,var(--rose),var(--violet));color:#fff;border-radius:var(--r3);padding:15px 40px;font-size:1rem;font-weight:700;box-shadow:0 8px 32px rgba(255,77,143,.45),inset 0 1px 0 rgba(255,255,255,.25);letter-spacing:.3px;width:100%;max-width:280px}
+.btn-outline{background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.3);border-radius:var(--r3);padding:13px 36px;font-size:.95rem;font-weight:600;backdrop-filter:blur(8px);width:100%;max-width:280px}
+.btn-back{background:rgba(255,255,255,.95);border-radius:50%;width:42px;height:42px;font-size:1.3rem;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--deep2);font-weight:800;box-shadow:var(--shadow2)}
+.btn-save{background:linear-gradient(135deg,#f8f8ff,#ffe8f4);border-radius:var(--r3);padding:10px 20px;font-size:.8rem;font-weight:700;color:var(--violet2);box-shadow:var(--shadow2);letter-spacing:.2px}
+.btn-del{background:linear-gradient(135deg,#ff5252,#c62828);color:#fff;border-radius:var(--r3);padding:12px 24px;font-size:.9rem;font-weight:700;box-shadow:0 4px 16px rgba(198,40,40,.3)}
+.btn-ok{background:linear-gradient(135deg,var(--rose),var(--violet));color:#fff;border-radius:var(--r3);padding:13px 32px;font-size:.95rem;font-weight:700;box-shadow:0 6px 24px rgba(255,77,143,.35)}
+.btn-cancel{background:var(--violet4);color:var(--violet2);border-radius:var(--r3);padding:12px 24px;font-size:.9rem;font-weight:600}
+.btn-reset{background:linear-gradient(135deg,#ff5252,#c62828);color:#fff;border-radius:var(--r3);padding:9px 16px;font-size:.75rem;font-weight:700;box-shadow:0 3px 12px rgba(198,40,40,.3);letter-spacing:.2px}
+
+/* HEADER */
+.screen-header{display:flex;align-items:center;gap:14px;padding:14px 16px 10px;background:rgba(255,255,255,.97);border-bottom:1px solid rgba(162,89,255,.12);box-shadow:0 2px 12px rgba(45,0,80,.06);flex-shrink:0;z-index:10}
+.screen-header h2{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--text);flex:1}
+
+/* SELECT */
+#screen-select{background:linear-gradient(160deg,#fff5fb 0%,#f5eeff 100%)}
+.select-grid{flex:1;display:flex;align-items:center;justify-content:center;gap:20px;padding:24px;flex-wrap:wrap}
+.doll-card{background:var(--card);border-radius:var(--r2);padding:22px 16px 18px;box-shadow:0 8px 40px rgba(162,89,255,.15),0 0 0 3px rgba(255,128,179,.3);cursor:pointer;transition:transform .22s,box-shadow .22s;min-width:145px;flex:1;max-width:200px;position:relative}
+.doll-card:hover,.doll-card:active{transform:translateY(-4px) scale(1.02);box-shadow:0 16px 48px rgba(162,89,255,.28),0 0 0 3px var(--rose)}
+.doll-card-inner{display:flex;flex-direction:column;align-items:center;gap:12px}
+.doll-preview-area{min-height:220px;display:flex;align-items:center;justify-content:center}
+.doll-card-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3)}
+.doll-card-name{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--text);text-align:center;font-weight:700}
+/* botão deletar no card */
+.doll-card-del{position:absolute;top:10px;right:10px;background:rgba(255,82,82,.12);border:1.5px solid rgba(255,82,82,.3);color:#c62828;border-radius:50%;width:30px;height:30px;font-size:.9rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s,transform .15s;z-index:5}
+.doll-card-del:hover{background:rgba(255,82,82,.25);transform:scale(1.1)}
+
+/* EDITOR */
+#screen-editor{background:linear-gradient(160deg,#fff5fb,#f5eeff)}
+.editor-layout{display:flex;flex-direction:column;height:100%}
+.editor-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 10px;background:rgba(255,255,255,.97);box-shadow:0 2px 14px rgba(45,0,80,.08);flex-shrink:0;z-index:5}
+.editor-doll-name{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--text);cursor:pointer;flex:1;text-align:center;padding:0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
+.stage{flex:0 0 auto;height:44%;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage-bg{position:absolute;inset:0;background:linear-gradient(160deg,#fce4ec 0%,#f3e5f5 55%,#ede7f6 100%)}
+.stage-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,77,143,.22) 0%,transparent 65%)}
+.stage-shine{position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(0deg,rgba(255,255,255,.35),transparent)}
+.doll-wrap{position:relative;z-index:2;animation:floatD 4s ease-in-out infinite}
+@keyframes floatD{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* TABS */
+.tabs{display:flex;background:#fff;border-top:1px solid rgba(162,89,255,.1);border-bottom:1px solid rgba(162,89,255,.1);flex-shrink:0;padding:0 4px}
+.tab{flex:1;padding:11px 4px;border:none;background:transparent;font-family:'Poppins',sans-serif;font-size:.76rem;font-weight:700;color:var(--text2);cursor:pointer;transition:all .2s;border-bottom:3px solid transparent;white-space:nowrap;letter-spacing:.2px}
+.tab.on{color:var(--rose2);border-bottom-color:var(--rose2);background:rgba(255,77,143,.05)}
+
+/* CATALOG */
+.catalog{flex:1;overflow-y:auto;padding:14px;-webkit-overflow-scrolling:touch;background:linear-gradient(160deg,#fff8fc,#f5eeff)}
+.sec-title{font-size:.73rem;font-weight:700;color:var(--text2);margin-bottom:9px;letter-spacing:.5px;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.swatches{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.swatch{width:28px;height:28px;border-radius:50%;cursor:pointer;border:3px solid transparent;box-shadow:0 2px 8px rgba(0,0,0,.15);transition:transform .15s,border-color .15s;flex-shrink:0}
+.swatch.on{border-color:var(--rose2);transform:scale(1.18);box-shadow:0 3px 14px rgba(255,77,143,.45)}
+.item-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.item{background:var(--card);border-radius:16px;padding:10px 6px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;border:2.5px solid transparent;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:transform .15s,border-color .15s,box-shadow .15s}
+.item:active{transform:scale(.93)}
+.item.on{border-color:var(--rose2);box-shadow:0 4px 20px rgba(255,77,143,.28);background:#fff5f9}
+.item-img{width:64px;height:64px;display:flex;align-items:center;justify-content:center}
+.item-label{font-size:.65rem;font-weight:700;color:var(--text2);text-align:center;line-height:1.3}
+
+/* GALLERY */
+#screen-gallery{background:linear-gradient(160deg,#fff5fb,#f5eeff)}
+.gallery-grid{flex:1;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:16px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.gallery-card{background:var(--card);border-radius:var(--r);overflow:hidden;cursor:pointer;box-shadow:0 4px 24px rgba(162,89,255,.12);transition:transform .15s;border:1.5px solid rgba(162,89,255,.1)}
+.gallery-card:active{transform:scale(.96)}
+.gallery-thumb{display:flex;align-items:center;justify-content:center;padding:14px;background:linear-gradient(135deg,#fce4ec,#f3e5f5)}
+.gallery-info{padding:8px 10px 10px;border-top:1px solid rgba(162,89,255,.1)}
+.gallery-name{font-family:'Playfair Display',serif;font-size:.9rem;color:var(--text);font-weight:700}
+.gallery-date{font-size:.62rem;color:var(--text3);margin-top:2px;font-weight:500}
+.gallery-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px 24px;text-align:center}
+.empty-doll{animation:floatD 3s ease-in-out infinite}
+.gallery-empty p{font-size:.95rem;color:var(--text2);font-weight:500}
+
+/* MODALS */
+.overlay{position:fixed;inset:0;background:rgba(30,0,51,.6);display:flex;align-items:center;justify-content:center;z-index:999;padding:20px;backdrop-filter:blur(6px)}
+.modal{background:#fff;border-radius:var(--r2);padding:30px 24px 24px;width:100%;max-width:320px;box-shadow:0 20px 60px rgba(45,0,80,.35);display:flex;flex-direction:column;gap:18px;align-items:center;animation:popIn .3s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+.modal h3{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--text);text-align:center;font-weight:700}
+.modal input[type=text]{width:100%;border:2px solid var(--rose3);border-radius:14px;padding:13px 16px;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:500;color:var(--text);outline:none;transition:border-color .2s}
+.modal input[type=text]:focus{border-color:var(--rose2)}
+.modal-row{display:flex;gap:12px;width:100%;justify-content:center}
+.modal-doll{display:flex;align-items:center;justify-content:center;padding:8px}
+.success-icon{font-size:3.5rem;animation:bounceIcon .6s ease}
+@keyframes bounceIcon{0%{transform:scale(.5)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+.modal p{font-size:.9rem;color:var(--text2);font-weight:500;text-align:center;line-height:1.6}
+.float-heart{position:fixed;pointer-events:none;font-size:1.5rem;z-index:9999;animation:flyHeart 2s ease-out forwards}
+@keyframes flyHeart{0%{transform:translateY(0) scale(.7) rotate(-10deg);opacity:1}100%{transform:translateY(-300px) scale(1.3) rotate(15deg);opacity:0}}
+
+/* Modal de confirmação de reset */
+.modal-warn{color:#c62828;font-size:2.5rem}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--rose3);border-radius:4px}
+@media(min-width:480px){.item-grid{grid-template-columns:repeat(4,1fr)}.gallery-grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="screen-home" class="screen active">
+  <div class="home-stars" id="home-stars"></div>
+  <div class="home-content fx-in">
+    <div class="logo-badge">
+      <div class="logo-title">✨ Studio Girassol ✨</div>
+      <div class="logo-sub">Crie • Estilize • Brilhe</div>
+    </div>
+    <div class="home-dolls" id="home-dolls-preview"></div>
+    <button class="btn btn-main" onclick="goTo('screen-select')">🎀 Jogar Agora</button>
+    <button class="btn btn-outline" onclick="goTo('screen-gallery')">📸 Minha Galeria</button>
+  </div>
+</div>
+
+<!-- SELECT -->
+<div id="screen-select" class="screen">
+  <div class="screen-header">
+    <button class="btn btn-back" onclick="goTo('screen-home')">←</button>
+    <h2>✨ Escolha sua Boneca</h2>
+  </div>
+  <div class="select-grid">
+    <div class="doll-card" onclick="selectDoll(0)">
+      <!-- Botão deletar boneca 0 -->
+      <button class="doll-card-del btn" onclick="event.stopPropagation();confirmResetDoll(0)" title="Resetar Boneca 1">🗑️</button>
+      <div class="doll-card-inner">
+        <div class="doll-preview-area" id="prev0"></div>
+        <div class="doll-card-label">Boneca 1</div>
+        <div class="doll-card-name" id="cname0">Sem nome</div>
+      </div>
+    </div>
+    <div class="doll-card" onclick="selectDoll(1)">
+      <!-- Botão deletar boneca 1 -->
+      <button class="doll-card-del btn" onclick="event.stopPropagation();confirmResetDoll(1)" title="Resetar Boneca 2">🗑️</button>
+      <div class="doll-card-inner">
+        <div class="doll-preview-area" id="prev1"></div>
+        <div class="doll-card-label">Boneca 2</div>
+        <div class="doll-card-name" id="cname1">Sem nome</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDITOR -->
+<div id="screen-editor" class="screen">
+  <div class="editor-layout">
+    <div class="editor-header">
+      <button class="btn btn-back" onclick="goTo('screen-select')">←</button>
+      <div class="editor-doll-name" id="ed-name" onclick="openNameModal()">✏️ Sem nome</div>
+      <button class="btn btn-save" onclick="saveDoll()">💾 Salvar</button>
+    </div>
+    <div class="stage">
+      <div class="stage-bg"></div>
+      <div class="stage-shine"></div>
+      <div class="doll-wrap" id="doll-canvas"></div>
+    </div>
+    <div class="tabs">
+      <button class="tab on" onclick="switchTab('hair')" id="tab-hair">💇 Cabelo</button>
+      <button class="tab" onclick="switchTab('makeup')" id="tab-makeup">💄 Maquiagem</button>
+      <button class="tab" onclick="switchTab('outfit')" id="tab-outfit">👗 Roupa</button>
+    </div>
+    <div class="catalog" id="catalog"></div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div id="screen-gallery" class="screen">
+  <div class="screen-header">
+    <button class="btn btn-back" onclick="goTo('screen-home')">←</button>
+    <h2>📸 Galeria de Bonecas</h2>
+  </div>
+  <div class="gallery-grid" id="gallery-grid"></div>
+  <div class="gallery-empty" id="gallery-empty" style="display:none">
+    <div class="empty-doll" id="empty-doll"></div>
+    <p>Sua galeria está vazia!<br>Crie e salve sua primeira boneca.</p>
+    <button class="btn btn-main" onclick="goTo('screen-select')">Criar Boneca</button>
+  </div>
+</div>
+
+<!-- MODAL: NOME -->
+<div id="modal-name" class="overlay" style="display:none">
+  <div class="modal">
+    <h3>✏️ Nome da Boneca</h3>
+    <input type="text" id="name-input" placeholder="Ex: Luna, Sofia, Mia..." maxlength="18"/>
+    <div class="modal-row">
+      <button class="btn btn-cancel" onclick="closeModal('modal-name')">Cancelar</button>
+      <button class="btn btn-ok" onclick="saveName()">Salvar ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: SALVO -->
+<div id="modal-saved" class="overlay" style="display:none">
+  <div class="modal">
+    <div class="success-icon">🎉</div>
+    <h3>Boneca Salva!</h3>
+    <p id="saved-msg">foi salva com sucesso!</p>
+    <button class="btn btn-ok" onclick="closeModal('modal-saved')">Incrível! 💖</button>
+  </div>
+</div>
+
+<!-- MODAL: DETALHE GALERIA -->
+<div id="modal-detail" class="overlay" style="display:none">
+  <div class="modal">
+    <div class="modal-doll" id="detail-doll"></div>
+    <h3 id="detail-name"></h3>
+    <p id="detail-date"></p>
+    <div class="modal-row">
+      <button class="btn btn-del" onclick="deleteDoll()">🗑️ Excluir</button>
+      <button class="btn btn-ok" onclick="closeModal('modal-detail')">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: CONFIRMAR RESET BONECA -->
+<div id="modal-reset" class="overlay" style="display:none">
+  <div class="modal">
+    <div class="modal-warn">⚠️</div>
+    <h3>Deletar Criação?</h3>
+    <p id="reset-msg">Isso vai apagar toda a personalização desta boneca e voltar ao padrão. Tem certeza?</p>
+    <div class="modal-row">
+      <button class="btn btn-cancel" onclick="closeModal('modal-reset')">Cancelar</button>
+      <button class="btn btn-del" onclick="doResetDoll()">🗑️ Deletar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   UTILS
+══════════════════════════════════════════ */
+function shade(hex, amt){
+  if(!hex||hex[0]!=='#'||hex.length<7) return hex||'#888';
+  let r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+  r=Math.max(0,Math.min(255,r+amt)); g=Math.max(0,Math.min(255,g+amt)); b=Math.max(0,Math.min(255,b+amt));
+  return '#'+((1<<24)|(r<<16)|(g<<8)|b).toString(16).slice(1);
+}
+let _uid = 0;
+function uid(){ return 'u'+(++_uid); }
+
+/* ══════════════════════════════════════════
+   DATA: CABELOS
+══════════════════════════════════════════ */
+const HAIRS = [
+  {
+    id:'h1', name:'Liso Longo',
+    colors:['#1a0800','#5c2c0a','#9b5e1f','#d4a855','#f0d090','#1a1a1a','#e91e8c','#5e17eb','#00acc1'],
+    drawBack:(c,s,id)=>`<g>
+      <ellipse cx="50" cy="24" rx="28" ry="29" fill="${s(c,-30)}"/>
+      <rect x="21" y="18" width="14" height="95" rx="7" fill="${s(c,-20)}"/>
+      <rect x="65" y="18" width="14" height="95" rx="7" fill="${s(c,-20)}"/>
+      <ellipse cx="28" cy="68" rx="7" ry="38" fill="${s(c,-35)}" opacity=".4"/>
+      <ellipse cx="72" cy="68" rx="7" ry="38" fill="${s(c,-35)}" opacity=".4"/>
+    </g>`,
+    drawFront:(c,s,id)=>`<g>
+      <ellipse cx="50" cy="23" rx="26" ry="19" fill="${c}"/>
+      <ellipse cx="25" cy="34" rx="6" ry="12" fill="${c}"/>
+      <ellipse cx="75" cy="34" rx="6" ry="12" fill="${c}"/>
+      <ellipse cx="44" cy="15" rx="10" ry="5" fill="${s(c,28)}" opacity=".38"/>
+      <ellipse cx="38" cy="13" rx="5" ry="3" fill="${s(c,35)}" opacity=".22"/>
+    </g>`
+  },
+  {
+    id:'h3', name:'Bob Curto',
+    colors:['#1a0800','#5c2c0a','#9b5e1f','#1a1a1a','#e91e8c','#5e17eb','#ff5722','#4caf50','#9c27b0'],
+    drawBack:(c,s,id)=>`<g>
+      <ellipse cx="50" cy="24" rx="28" ry="26" fill="${s(c,-22)}"/>
+      <rect x="21" y="18" width="13" height="32" rx="6.5" fill="${s(c,-15)}"/>
+      <rect x="66" y="18" width="13" height="32" rx="6.5" fill="${s(c,-15)}"/>
+      <ellipse cx="50" cy="48" rx="27" ry="8" fill="${s(c,-18)}"/>
+    </g>`,
+    drawFront:(c,s,id)=>`<g>
+      <ellipse cx="50" cy="23" rx="26" ry="18" fill="${c}"/>
+      <ellipse cx="25" cy="34" rx="6" ry="10" fill="${c}"/>
+      <ellipse cx="75" cy="34" rx="6" ry="10" fill="${c}"/>
+      <ellipse cx="44" cy="15" rx="10" ry="5" fill="${s(c,22)}" opacity=".38"/>
+    </g>`
+  },
+  {
+    id:'h4', name:'Tranças',
+    colors:['#1a0800','#5c2c0a','#9b5e1f','#1a1a1a','#e91e8c','#5e17eb','#00acc1','#ff9800','#f0d090'],
+    drawBack:(c,s,id)=>`<g>
+      <ellipse cx="50" cy="23" rx="27" ry="27" fill="${s(c,-22)}"/>
+      <rect x="23" y="26" width="11" height="76" rx="5.5" fill="${s(c,-14)}"/>
+      <rect x="66" y="26" width="11" height="76" rx="5.5" fill="${s(c,-14)}"/>
+      ${[38,52,66,80].map(y=>`
+        <ellipse cx="28.5" cy="${y}" rx="7.5" ry="4" fill="${s(c,-22)}" opacity=".7"/>
+        <ellipse cx="71.5" cy="${y}" rx="7.5" ry="4" fill="${s(c,-22)}" opacity=".7"/>
+      `).join('')}
+      <ellipse cx="28.5" cy="101" rx="6" ry="4" fill="${s(c,-28)}"/>
+      <ellipse cx="71.5" cy="101" rx="6" ry="4" fill="${s(c,-28)}"/>
+    </g>`,
+    drawFront:(c,s,id)=>`<g>
+      <ellipse cx="50" cy="22" rx="26" ry="17" fill="${c}"/>
+      <line x1="50" y1="8" x2="50" y2="26" stroke="${s(c,-25)}" stroke-width="1.5"/>
+      <ellipse cx="43" cy="14" rx="9" ry="4.5" fill="${s(c,20)}" opacity=".35"/>
+    </g>`
+  },
+  {
+    id:'h5', name:'Cacheado',
+    colors:['#1a0800','#5c2c0a','#1a1a1a','#e91e8c','#5e17eb','#ff5722','#9c27b0','#00acc1','#d4a855'],
+    drawBack:(c,s,id)=>`<g>
+      <ellipse cx="50" cy="20" rx="30" ry="28" fill="${s(c,-20)}"/>
+      <ellipse cx="23" cy="30" rx="12" ry="16" fill="${s(c,-15)}"/>
+      <ellipse cx="77" cy="30" rx="12" ry="16" fill="${s(c,-15)}"/>
+      <ellipse cx="24" cy="50" rx="9" ry="13" fill="${s(c,-18)}"/>
+      <ellipse cx="76" cy="50" rx="9" ry="13" fill="${s(c,-18)}"/>
+    </g>`,
+    drawFront:(c,s,id)=>`<g>
+      <ellipse cx="50" cy="17" rx="27" ry="20" fill="${c}"/>
+      <ellipse cx="33" cy="8" rx="12" ry="11" fill="${c}"/>
+      <ellipse cx="67" cy="8" rx="12" ry="11" fill="${c}"/>
+      <ellipse cx="50" cy="6" rx="16" ry="11" fill="${c}"/>
+      <ellipse cx="27" cy="30" rx="8" ry="12" fill="${c}"/>
+      <ellipse cx="73" cy="30" rx="8" ry="12" fill="${c}"/>
+      <ellipse cx="44" cy="10" rx="10" ry="6" fill="${s(c,25)}" opacity=".38"/>
+    </g>`
+  },
+  {
+    id:'h6', name:'Ondas',
+    colors:['#1a0800','#5c2c0a','#9b5e1f','#d4a855','#1a1a1a','#e91e8c','#5e17eb','#00acc1','#ff9800'],
+    drawBack:(c,s,id)=>`<g>
+      <ellipse cx="50" cy="23" rx="28" ry="29" fill="${s(c,-25)}"/>
+      <rect x="21" y="18" width="13" height="85" rx="6.5" fill="${s(c,-18)}"/>
+      <rect x="66" y="18" width="13" height="85" rx="6.5" fill="${s(c,-18)}"/>
+      <path d="M21 38 Q13 50 21 60 Q29 70 21 80 Q13 90 21 100" stroke="${s(c,-28)}" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <path d="M79 38 Q87 50 79 60 Q71 70 79 80 Q87 90 79 100" stroke="${s(c,-28)}" stroke-width="8" fill="none" stroke-linecap="round"/>
+    </g>`,
+    drawFront:(c,s,id)=>`<g>
+      <ellipse cx="50" cy="23" rx="26" ry="18" fill="${c}"/>
+      <ellipse cx="25" cy="33" rx="6" ry="11" fill="${c}"/>
+      <ellipse cx="75" cy="33" rx="6" ry="11" fill="${c}"/>
+      <ellipse cx="43" cy="15" rx="11" ry="5" fill="${s(c,22)}" opacity=".35"/>
+    </g>`
+  },
+];
+
+/* ══════════════════════════════════════════
+   DATA: MAQUIAGENS — delineados corrigidos
+   Os clips dos olhos estão exatamente onde os olhos são desenhados:
+   cx="38" cy="53" e cx="62" cy="53" (mesmo do buildDoll)
+   Os delineados agora acompanham a curvatura dos cílios (y≈50)
+══════════════════════════════════════════ */
+const MAKEUPS = [
+  /* m0 — Natural */
+  {id:'m0', name:'Natural', colors:['#f7c5d8'],
+  draw:(c,cl,cr)=>`
+    <ellipse cx="33" cy="63" rx="7" ry="4.5" fill="#ffb7c5" opacity=".4"/>
+    <ellipse cx="67" cy="63" rx="7" ry="4.5" fill="#ffb7c5" opacity=".4"/>
+    <path d="M42 72 Q50 77 58 72 Q50 79.5 42 72Z" fill="#e8978a"/>
+    <path d="M42 72 Q50 69.5 58 72" fill="none" stroke="#d4806e" stroke-width=".8"/>
+    <ellipse cx="50" cy="71.5" rx="4" ry="1" fill="white" opacity=".22"/>
+  `},
+
+  /* m1 — Clássica — delineado na borda superior do olho, colado aos cílios */
+  {id:'m1', name:'Clássica', colors:['#c62828','#880e4f','#e91e63','#7b1fa2','#1a237e','#4e342e'],
+  draw:(c,cl,cr)=>`
+    <ellipse cx="33" cy="63" rx="7.5" ry="4.5" fill="#ffb7c5" opacity=".5"/>
+    <ellipse cx="67" cy="63" rx="7.5" ry="4.5" fill="#ffb7c5" opacity=".5"/>
+    <g clip-path="url(#${cl})">
+      <ellipse cx="38" cy="48" rx="9.5" ry="5" fill="${c}" opacity=".28"/>
+      <!-- delineado junto à borda superior do olho (y=45.5 ~ base dos cílios) -->
+      <path d="M29.5 50.5 Q38 46 46.5 50.5" stroke="${c}" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    </g>
+    <g clip-path="url(#${cr})">
+      <ellipse cx="62" cy="48" rx="9.5" ry="5" fill="${c}" opacity=".28"/>
+      <path d="M53.5 50.5 Q62 46 70.5 50.5" stroke="${c}" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    </g>
+    <path d="M42 72 Q50 67.5 58 72 Q50 79.5 42 72Z" fill="${c}"/>
+    <path d="M42 72 Q50 69.5 58 72" fill="none" stroke="rgba(255,255,255,.25)" stroke-width=".8"/>
+    <ellipse cx="50" cy="71" rx="4" ry="1.2" fill="white" opacity=".18"/>
+  `},
+
+  /* m2 — Glamour — delineado com puxada alinhado ao arco dos cílios */
+  {id:'m2', name:'Glamour', colors:['#ad1457','#6a1de8','#0097a7','#f57f17','#c62828','#1a237e'],
+  draw:(c,cl,cr)=>`
+    <g clip-path="url(#${cl})">
+      <ellipse cx="38" cy="47" rx="9.5" ry="6" fill="${c}" opacity=".55"/>
+      <ellipse cx="34" cy="47" rx="5" ry="3.5" fill="white" opacity=".18"/>
+      <!-- delineado com puxada: segue a curva dos cílios (y=50) e pontinha sai pela borda -->
+      <path d="M29.5 50.5 Q38 46 46.5 50.5" stroke="#1a0a00" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <line x1="46.5" y1="50.5" x2="49.5" y2="47" stroke="#1a0a00" stroke-width="1.8" stroke-linecap="round"/>
+    </g>
+    <g clip-path="url(#${cr})">
+      <ellipse cx="62" cy="47" rx="9.5" ry="6" fill="${c}" opacity=".55"/>
+      <ellipse cx="58" cy="47" rx="5" ry="3.5" fill="white" opacity=".18"/>
+      <path d="M53.5 50.5 Q62 46 70.5 50.5" stroke="#1a0a00" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <line x1="53.5" y1="50.5" x2="50.5" y2="47" stroke="#1a0a00" stroke-width="1.8" stroke-linecap="round"/>
+    </g>
+    <ellipse cx="33" cy="63" rx="7" ry="4" fill="#ff80ab" opacity=".44"/>
+    <ellipse cx="67" cy="63" rx="7" ry="4" fill="#ff80ab" opacity=".44"/>
+    <path d="M41 72 Q50 67 59 72 Q50 80 41 72Z" fill="${c}"/>
+    <path d="M41 72 Q50 69.5 59 72" fill="none" stroke="rgba(255,255,255,.28)" stroke-width=".9"/>
+    <ellipse cx="50" cy="71" rx="5" ry="1.4" fill="white" opacity=".18"/>
+  `},
+
+  /* m3 — Kawaii */
+  {id:'m3', name:'Kawaii', colors:['#e91e63','#ff4081','#f06292','#ce93d8','#80deea','#fff176'],
+  draw:(c,cl,cr)=>`
+    <ellipse cx="31" cy="64" rx="9" ry="6" fill="#ff80ab" opacity=".55"/>
+    <ellipse cx="69" cy="64" rx="9" ry="6" fill="#ff80ab" opacity=".55"/>
+    <circle cx="26" cy="63" r="1.4" fill="#ff4081" opacity=".55"/>
+    <circle cx="74" cy="63" r="1.4" fill="#ff4081" opacity=".55"/>
+    <circle cx="28" cy="67" r="1" fill="#ff4081" opacity=".4"/>
+    <circle cx="72" cy="67" r="1" fill="#ff4081" opacity=".4"/>
+    <g clip-path="url(#${cl})">
+      <circle cx="32" cy="49" r="2.5" fill="white" opacity=".75"/>
+      <circle cx="32" cy="49" r="1.2" fill="${c}" opacity=".5"/>
+    </g>
+    <g clip-path="url(#${cr})">
+      <circle cx="68" cy="49" r="2.5" fill="white" opacity=".75"/>
+      <circle cx="68" cy="49" r="1.2" fill="${c}" opacity=".5"/>
+    </g>
+    <path d="M45 72 Q47 69.5 50 71 Q53 69.5 55 72 Q50 78 45 72Z" fill="${c}"/>
+    <ellipse cx="50" cy="71.5" rx="2.5" ry="1" fill="white" opacity=".25"/>
+  `},
+
+  /* m4 — Gótica — delineado alinhado ao arco superior dos cílios */
+  {id:'m4', name:'Gótica', colors:['#4a148c','#880e4f','#b71c1c','#006064','#1a237e','#212121'],
+  draw:(c,cl,cr)=>`
+    <g clip-path="url(#${cl})">
+      <ellipse cx="38" cy="46" rx="9.5" ry="7" fill="#0d0d1a" opacity=".88"/>
+      <path d="M29.5 50.5 Q38 46 46.5 50.5" stroke="${c}" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <line x1="46.5" y1="50.5" x2="49.5" y2="47" stroke="${c}" stroke-width="1.8" stroke-linecap="round"/>
+    </g>
+    <g clip-path="url(#${cr})">
+      <ellipse cx="62" cy="46" rx="9.5" ry="7" fill="#0d0d1a" opacity=".88"/>
+      <path d="M53.5 50.5 Q62 46 70.5 50.5" stroke="${c}" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <line x1="53.5" y1="50.5" x2="50.5" y2="47" stroke="${c}" stroke-width="1.8" stroke-linecap="round"/>
+    </g>
+    <path d="M30 58.5 Q38 60.5 46 58.5" stroke="${c}" stroke-width=".9" fill="none" opacity=".5" stroke-linecap="round"/>
+    <path d="M54 58.5 Q62 60.5 70 58.5" stroke="${c}" stroke-width=".9" fill="none" opacity=".5" stroke-linecap="round"/>
+    <ellipse cx="32" cy="64" rx="5.5" ry="3" fill="${c}" opacity=".35"/>
+    <ellipse cx="68" cy="64" rx="5.5" ry="3" fill="${c}" opacity=".35"/>
+    <path d="M42 72 Q50 67.5 58 72 Q50 79.5 42 72Z" fill="${c}"/>
+    <path d="M42.5 72 Q50 70 57.5 72" fill="none" stroke="rgba(255,255,255,.12)" stroke-width=".8"/>
+  `},
+
+  /* m5 — Princesa — sombra pastel com delineado sutil alinhado aos cílios */
+  {id:'m5', name:'Princesa', colors:['#f8bbd9','#e1bee7','#b3e5fc','#ffe0b2','#dcedc8','#fff9c4'],
+  draw:(c,cl,cr)=>`
+    <g clip-path="url(#${cl})">
+      <ellipse cx="38" cy="47.5" rx="9.5" ry="5.5" fill="${c}" opacity=".7"/>
+      <ellipse cx="34" cy="47" rx="4.5" ry="2.5" fill="white" opacity=".4"/>
+      <path d="M29.5 50.5 Q38 47 46.5 50.5" stroke="#c77daa" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </g>
+    <g clip-path="url(#${cr})">
+      <ellipse cx="62" cy="47.5" rx="9.5" ry="5.5" fill="${c}" opacity=".7"/>
+      <ellipse cx="58" cy="47" rx="4.5" ry="2.5" fill="white" opacity=".4"/>
+      <path d="M53.5 50.5 Q62 47 70.5 50.5" stroke="#c77daa" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </g>
+    <ellipse cx="32" cy="63.5" rx="8" ry="5" fill="#f48fb1" opacity=".55"/>
+    <ellipse cx="68" cy="63.5" rx="8" ry="5" fill="#f48fb1" opacity=".55"/>
+    <path d="M43 72 Q50 68 57 72 Q50 78.5 43 72Z" fill="${c}"/>
+    <path d="M43.5 72 Q50 70 56.5 72" fill="none" stroke="rgba(255,255,255,.4)" stroke-width=".9"/>
+    <ellipse cx="50" cy="71" rx="3.5" ry="1.1" fill="white" opacity=".35"/>
+    <circle cx="50" cy="42" r="1.3" fill="${c}" opacity=".65"/>
+    <circle cx="55" cy="40" r=".9" fill="white" opacity=".55"/>
+    <circle cx="45" cy="40" r=".9" fill="white" opacity=".55"/>
+  `},
+];
+
+/* ══════════════════════════════════════════
+   DATA: ROUPAS
+   - Uniforme Chic (mantida)
+   - Vestido de Festa (mantida)
+   - Casual Moderno → substituído por Roupa Praiana 🏖️
+   - Princesa Mágica (mantida)
+   - Vestido Floral (NOVO) 🌸
+══════════════════════════════════════════ */
+const OUTFITS = [
+  {id:'o1',name:'Uniforme Chic',colors:['#37474f','#1565c0','#2e7d32','#6a1b9a','#b71c1c','#4e342e','#e65100','#37474f'],
+  draw:(c,s,sk)=>`<g>
+    <path d="M28 135 Q50 128 72 135 L76 190 Q50 198 24 190Z" fill="${c}"/>
+    <path d="M30 155 L28 190" stroke="${s(c,-18)}" stroke-width="1.2" opacity=".6"/>
+    <path d="M40 152 L38 190" stroke="${s(c,-18)}" stroke-width="1.2" opacity=".6"/>
+    <path d="M50 151 L50 191" stroke="${s(c,-18)}" stroke-width="1.2" opacity=".6"/>
+    <path d="M60 152 L62 190" stroke="${s(c,-18)}" stroke-width="1.2" opacity=".6"/>
+    <path d="M70 155 L72 190" stroke="${s(c,-18)}" stroke-width="1.2" opacity=".6"/>
+    <rect x="30" y="92" width="40" height="46" rx="5" fill="${s(c,-8)}"/>
+    <rect x="30" y="92" width="18" height="46" rx="4" fill="${c}"/>
+    <rect x="52" y="92" width="18" height="46" rx="4" fill="${c}"/>
+    <rect x="43" y="94" width="14" height="44" rx="2" fill="white" opacity=".9"/>
+    <polygon points="48,96 52,96 51.5,118 50,120 48.5,118" fill="${s(c,-30)}"/>
+    <rect x="18" y="94" width="14" height="46" rx="7" fill="${c}"/>
+    <rect x="68" y="94" width="14" height="46" rx="7" fill="${c}"/>
+    <ellipse cx="25" cy="142" rx="8" ry="7" fill="${sk}"/>
+    <ellipse cx="75" cy="142" rx="8" ry="7" fill="${sk}"/>
+    <rect x="19" y="133" width="12" height="10" rx="5" fill="white" opacity=".8"/>
+    <rect x="69" y="133" width="12" height="10" rx="5" fill="white" opacity=".8"/>
+    <circle cx="50" cy="106" r="1.5" fill="${s(c,-30)}"/>
+    <circle cx="50" cy="114" r="1.5" fill="${s(c,-30)}"/>
+    <circle cx="50" cy="122" r="1.5" fill="${s(c,-30)}"/>
+    <ellipse cx="37" cy="192" rx="10" ry="5" fill="#1a1a1a"/>
+    <ellipse cx="63" cy="192" rx="10" ry="5" fill="#1a1a1a"/>
+  </g>`},
+
+  {id:'o2',name:'Vestido de Festa',colors:['#e91e63','#9c27b0','#3f51b5','#009688','#f44336','#ff9800','#607d8b','#000000'],
+  draw:(c,s,sk)=>`<g>
+    <path d="M24 130 Q50 120 76 130 L82 195 Q50 205 18 195Z" fill="${c}"/>
+    <circle cx="35" cy="158" r="2" fill="white" opacity=".5"/>
+    <circle cx="55" cy="145" r="1.5" fill="white" opacity=".5"/>
+    <circle cx="65" cy="168" r="2" fill="white" opacity=".4"/>
+    <circle cx="42" cy="175" r="1.5" fill="white" opacity=".5"/>
+    <circle cx="70" cy="155" r="1.5" fill="white" opacity=".4"/>
+    <circle cx="30" cy="180" r="2" fill="white" opacity=".4"/>
+    <path d="M32 126 Q50 119 68 126 L70 136 Q50 143 30 136Z" fill="${s(c,-22)}"/>
+    <path d="M33 94 Q50 87 67 94 L70 130 Q50 137 30 130Z" fill="${c}"/>
+    <path d="M30 126 Q50 119 70 126 L71 131 Q50 137 29 131Z" fill="${s(c,25)}" opacity=".5"/>
+    <circle cx="50" cy="96" r="4" fill="${s(c,20)}" opacity=".7"/>
+    <rect x="36" y="90" width="8" height="12" rx="4" fill="${s(c,-15)}"/>
+    <rect x="56" y="90" width="8" height="12" rx="4" fill="${s(c,-15)}"/>
+    <path d="M36 104 Q50 100 64 104" stroke="${s(c,20)}" stroke-width="1.2" fill="none" opacity=".6"/>
+    <path d="M34 112 Q50 107 66 112" stroke="${s(c,20)}" stroke-width="1.2" fill="none" opacity=".5"/>
+    <rect x="18" y="96" width="14" height="38" rx="7" fill="${sk}"/>
+    <rect x="68" y="96" width="14" height="38" rx="7" fill="${sk}"/>
+    <ellipse cx="25" cy="135" rx="8" ry="7" fill="${sk}"/>
+    <ellipse cx="75" cy="135" rx="8" ry="7" fill="${sk}"/>
+    <ellipse cx="37" cy="196" rx="9" ry="4" fill="#c62828"/>
+    <ellipse cx="63" cy="196" rx="9" ry="4" fill="#c62828"/>
+    <rect x="39" y="192" width="2" height="5" rx="1" fill="#c62828"/>
+    <rect x="61" y="192" width="2" height="5" rx="1" fill="#c62828"/>
+  </g>`},
+
+  /* 🏖️ ROUPA PRAIANA — biquíni com sarongue curto lateral, abdômen visível, pernas completas */
+  {id:'o3',name:'Roupa Praiana',colors:['#ff7043','#ec407a','#29b6f6','#ffca28','#66bb6a','#ab47bc','#26c6da','#ef5350'],
+  draw:(c,s,sk)=>`<g>
+    <!-- PERNAS — desenhadas PRIMEIRO para ficarem atrás do biquíni -->
+    <rect x="33" y="148" width="14" height="52" rx="7" fill="${sk}"/>
+    <rect x="53" y="148" width="14" height="52" rx="7" fill="${sk}"/>
+    <!-- brilho nas pernas -->
+    <rect x="36" y="150" width="5" height="44" rx="2.5" fill="${s(sk,18)}" opacity=".28"/>
+    <rect x="56" y="150" width="5" height="44" rx="2.5" fill="${s(sk,18)}" opacity=".28"/>
+
+    <!-- ABDÔMEN VISÍVEL — pele entre o top e a calcinha, alargado para cobrir junção dos braços -->
+    <rect x="31" y="112" width="38" height="22" rx="4" fill="${sk}"/>
+    <!-- umbigo -->
+    <ellipse cx="50" cy="122" rx="1.8" ry="2" fill="${s(sk,-18)}" opacity=".5"/>
+    <!-- detalhe lateral cintura -->
+    <ellipse cx="34" cy="120" rx="3" ry="6" fill="${s(sk,-8)}" opacity=".18"/>
+    <ellipse cx="66" cy="120" rx="3" ry="6" fill="${s(sk,-8)}" opacity=".18"/>
+
+    <!-- CALCINHA do biquíni — parte de baixo (cobre início das pernas) -->
+    <path d="M34 133 Q50 127 66 133 L64 148 Q50 153 36 148Z" fill="${c}"/>
+    <!-- detalhe lateral da calcinha -->
+    <path d="M34 133 Q34 141 36 148" stroke="${s(c,25)}" stroke-width="1.5" fill="none" opacity=".5"/>
+    <path d="M66 133 Q66 141 64 148" stroke="${s(c,25)}" stroke-width="1.5" fill="none" opacity=".5"/>
+    <!-- laço central da calcinha -->
+    <path d="M46 133 Q50 130 54 133" stroke="${s(c,-15)}" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+    <!-- SARONGUE curto — transparente, só de um lado, NÃO cobre as pernas inteiras -->
+    <path d="M34 133 Q42 135 50 133 Q50 155 38 162 Q32 165 34 133Z" fill="${c}" opacity=".38"/>
+    <!-- listras do sarongue -->
+    <path d="M35 140 Q43 138 50 136" stroke="${s(c,30)}" stroke-width="1.5" fill="none" opacity=".4"/>
+    <path d="M35 148 Q43 146 49 144" stroke="${s(c,30)}" stroke-width="1.5" fill="none" opacity=".35"/>
+    <path d="M36 156 Q42 154 48 152" stroke="${s(c,30)}" stroke-width="1.2" fill="none" opacity=".3"/>
+    <!-- nó do sarongue na cintura -->
+    <circle cx="50" cy="133" r="3.5" fill="${s(c,-10)}"/>
+    <circle cx="50" cy="133" r="1.8" fill="${s(c,-25)}"/>
+
+    <!-- TOP do biquíni — cobre y=93 a y=112, alinhado com ombros dos braços -->
+    <path d="M33 93 Q50 87 67 93 L65 112 Q50 118 35 112Z" fill="${c}"/>
+    <!-- detalhe textura do top -->
+    <path d="M38 100 Q50 96 62 100" stroke="${s(c,20)}" stroke-width="1" fill="none" opacity=".4"/>
+    <path d="M37 107 Q50 103 63 107" stroke="${s(c,20)}" stroke-width="1" fill="none" opacity=".35"/>
+    <!-- bolinhas estampa no top -->
+    <circle cx="41" cy="103" r="2" fill="white" opacity=".35"/>
+    <circle cx="59" cy="103" r="2" fill="white" opacity=".35"/>
+    <circle cx="50" cy="98" r="1.8" fill="white" opacity=".3"/>
+    <!-- laço central do top -->
+    <ellipse cx="50" cy="112" rx="5" ry="3" fill="${s(c,-15)}"/>
+    <circle cx="50" cy="112" r="2" fill="${s(c,-28)}"/>
+    <!-- alças do top (vão ao redor do pescoço, ajustadas ao novo topo) -->
+    <path d="M36 93 Q43 83 50 85 Q57 83 64 93" stroke="${c}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+    <!-- BRAÇOS conectados ao corpo (top começa em x=35 e termina em x=65) -->
+    <!-- Braço esquerdo: rx=7, centro x=28.5, toca o ombro em x=35 -->
+    <rect x="21" y="93" width="15" height="36" rx="7.5" fill="${sk}"/>
+    <ellipse cx="28" cy="130" rx="8.5" ry="7.5" fill="${sk}"/>
+    <!-- Braço direito: rx=7, centro x=71.5, toca o ombro em x=65 -->
+    <rect x="64" y="93" width="15" height="36" rx="7.5" fill="${sk}"/>
+    <ellipse cx="72" cy="130" rx="8.5" ry="7.5" fill="${sk}"/>
+    <!-- brilho nos braços -->
+    <rect x="23" y="95" width="5" height="30" rx="2.5" fill="${s(sk,20)}" opacity=".25"/>
+    <rect x="66" y="95" width="5" height="30" rx="2.5" fill="${s(sk,20)}" opacity=".25"/>
+
+    <!-- CHINELOS DE PRAIA -->
+    <ellipse cx="37" cy="202" rx="11" ry="5" fill="#ff8f00"/>
+    <ellipse cx="63" cy="202" rx="11" ry="5" fill="#ff8f00"/>
+    <!-- tiras do chinelo -->
+    <path d="M30 200 Q37 196 44 200" stroke="#e65100" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <path d="M56 200 Q63 196 70 200" stroke="#e65100" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <line x1="37" y1="197" x2="37" y2="202" stroke="#e65100" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="63" y1="197" x2="63" y2="202" stroke="#e65100" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- brilho chinelo -->
+    <ellipse cx="37" cy="200" rx="7" ry="2" fill="#ffcc02" opacity=".4"/>
+    <ellipse cx="63" cy="200" rx="7" ry="2" fill="#ffcc02" opacity=".4"/>
+  </g>`},
+
+  {id:'o4',name:'Princesa Mágica',colors:['#f06292','#ce93d8','#80deea','#fff176','#a5d6a7','#ffcc80','#ef9a9a','#e1bee7'],
+  draw:(c,s,sk)=>`<g>
+    <path d="M22 132 Q50 122 78 132 L85 198 Q50 208 15 198Z" fill="${c}" opacity=".85"/>
+    <path d="M24 132 Q50 124 76 132 L80 175 Q50 183 20 175Z" fill="${s(c,25)}" opacity=".55"/>
+    <path d="M26 132 Q50 126 74 132 L72 160 Q50 166 28 160Z" fill="white" opacity=".28"/>
+    <text x="28" y="156" font-size="11" opacity=".7">⭐</text>
+    <text x="58" y="148" font-size="9" opacity=".65">✨</text>
+    <text x="42" y="172" font-size="10" opacity=".65">🌟</text>
+    <text x="65" y="168" font-size="8" opacity=".6">✦</text>
+    <text x="32" y="182" font-size="8" opacity=".55">✦</text>
+    <path d="M34 95 Q50 88 66 95 L69 134 Q50 141 31 134Z" fill="${s(c,-18)}"/>
+    <path d="M36 104 Q50 101 64 104" stroke="${s(c,22)}" stroke-width="1.5" fill="none" opacity=".65"/>
+    <path d="M34 114 Q50 110 66 114" stroke="${s(c,22)}" stroke-width="1.5" fill="none" opacity=".55"/>
+    <ellipse cx="42" cy="95" rx="6" ry="4" fill="${s(c,20)}" opacity=".8"/>
+    <ellipse cx="58" cy="95" rx="6" ry="4" fill="${s(c,20)}" opacity=".8"/>
+    <text x="38" y="22" font-size="16" opacity=".85">👑</text>
+    <text x="67" y="116" font-size="16">🪄</text>
+    <rect x="18" y="97" width="14" height="36" rx="7" fill="${sk}"/>
+    <rect x="68" y="97" width="14" height="36" rx="7" fill="${sk}"/>
+    <ellipse cx="25" cy="134" rx="8" ry="7" fill="${sk}"/>
+    <ellipse cx="75" cy="134" rx="8" ry="7" fill="${sk}"/>
+    <ellipse cx="37" cy="199" rx="10" ry="4.5" fill="#b3e5fc" opacity=".9"/>
+    <ellipse cx="63" cy="199" rx="10" ry="4.5" fill="#b3e5fc" opacity=".9"/>
+    <ellipse cx="37" cy="199" rx="8" ry="2.5" fill="white" opacity=".5"/>
+    <ellipse cx="63" cy="199" rx="8" ry="2.5" fill="white" opacity=".5"/>
+  </g>`},
+
+  /* 🌸 VESTIDO FLORAL — novo vestido com estampa de flores */
+  {id:'o5',name:'Vestido Floral',colors:['#e91e63','#9c27b0','#f44336','#ff9800','#4caf50','#00bcd4','#3f51b5','#795548'],
+  draw:(c,s,sk)=>`<g>
+    <!-- saia rodada -->
+    <path d="M20 130 Q50 118 80 130 L88 200 Q50 212 12 200Z" fill="${s(c,15)}" opacity=".9"/>
+    <!-- camada de cima da saia (mais escura) -->
+    <path d="M26 130 Q50 122 74 130 L78 180 Q50 190 22 180Z" fill="${c}" opacity=".7"/>
+    <!-- flores na saia -->
+    <circle cx="35" cy="155" r="5" fill="${s(c,40)}" opacity=".6"/>
+    <circle cx="35" cy="155" r="2.5" fill="white" opacity=".7"/>
+    <circle cx="65" cy="148" r="4.5" fill="${s(c,40)}" opacity=".6"/>
+    <circle cx="65" cy="148" r="2.2" fill="white" opacity=".7"/>
+    <circle cx="48" cy="170" r="5" fill="${s(c,40)}" opacity=".55"/>
+    <circle cx="48" cy="170" r="2.5" fill="white" opacity=".65"/>
+    <circle cx="72" cy="168" r="4" fill="${s(c,35)}" opacity=".5"/>
+    <circle cx="72" cy="168" r="2" fill="white" opacity=".6"/>
+    <circle cx="28" cy="178" r="4.5" fill="${s(c,35)}" opacity=".5"/>
+    <circle cx="28" cy="178" r="2.2" fill="white" opacity=".6"/>
+    <circle cx="55" cy="187" r="4" fill="${s(c,40)}" opacity=".5"/>
+    <circle cx="55" cy="187" r="2" fill="white" opacity=".6"/>
+    <!-- pétulas ao redor das flores -->
+    <ellipse cx="35" cy="149" rx="2.5" ry="1.5" fill="${s(c,35)}" opacity=".5"/>
+    <ellipse cx="35" cy="161" rx="2.5" ry="1.5" fill="${s(c,35)}" opacity=".5"/>
+    <ellipse cx="29" cy="155" rx="1.5" ry="2.5" fill="${s(c,35)}" opacity=".5"/>
+    <ellipse cx="41" cy="155" rx="1.5" ry="2.5" fill="${s(c,35)}" opacity=".5"/>
+    <!-- corpete / blusa -->
+    <path d="M34 96 Q50 89 66 96 L68 132 Q50 138 32 132Z" fill="${c}"/>
+    <!-- renda / detalhe no decote -->
+    <path d="M34 96 Q42 92 50 90 Q58 92 66 96" stroke="white" stroke-width="1.5" fill="none" opacity=".6" stroke-dasharray="3,2"/>
+    <!-- laço na cintura -->
+    <ellipse cx="50" cy="133" rx="10" ry="4" fill="${s(c,-15)}"/>
+    <path d="M40 133 Q44 128 50 130 Q56 128 60 133" fill="${s(c,-10)}" opacity=".8"/>
+    <circle cx="50" cy="133" r="3" fill="${s(c,-25)}"/>
+    <!-- flores no corpete -->
+    <circle cx="42" cy="108" r="3" fill="${s(c,35)}" opacity=".55"/>
+    <circle cx="42" cy="108" r="1.5" fill="white" opacity=".65"/>
+    <circle cx="58" cy="108" r="3" fill="${s(c,35)}" opacity=".55"/>
+    <circle cx="58" cy="108" r="1.5" fill="white" opacity=".65"/>
+    <!-- mangas curtas bufantes -->
+    <ellipse cx="29" cy="100" rx="10" ry="12" fill="${c}"/>
+    <ellipse cx="71" cy="100" rx="10" ry="12" fill="${c}"/>
+    <path d="M21 100 Q29 93 37 100 Q29 108 21 100Z" fill="${s(c,-10)}" opacity=".4"/>
+    <path d="M63 100 Q71 93 79 100 Q71 108 63 100Z" fill="${s(c,-10)}" opacity=".4"/>
+    <!-- braços / mãos -->
+    <rect x="17" y="110" width="12" height="24" rx="6" fill="${sk}"/>
+    <rect x="71" y="110" width="12" height="24" rx="6" fill="${sk}"/>
+    <ellipse cx="23" cy="135" rx="7" ry="6" fill="${sk}"/>
+    <ellipse cx="77" cy="135" rx="7" ry="6" fill="${sk}"/>
+    <!-- sapatilhas florais -->
+    <ellipse cx="37" cy="200" rx="12" ry="5.5" fill="${s(c,-10)}"/>
+    <ellipse cx="63" cy="200" rx="12" ry="5.5" fill="${s(c,-10)}"/>
+    <ellipse cx="37" cy="199" rx="9" ry="3" fill="${s(c,20)}" opacity=".5"/>
+    <ellipse cx="63" cy="199" rx="9" ry="3" fill="${s(c,20)}" opacity=".5"/>
+    <circle cx="37" cy="197" r="2.5" fill="${s(c,30)}" opacity=".8"/>
+    <circle cx="63" cy="197" r="2.5" fill="${s(c,30)}" opacity=".8"/>
+  </g>`},
+];
+
+const SKINS = ['#fde8d0','#f5c6a0','#e8a87c','#c68642','#8d5524','#4a2912'];
+
+/* ══════════════════════════════════════════
+   BUILD DOLL
+══════════════════════════════════════════ */
+function buildDoll(doll, W=110, H=220){
+  const id = uid();
+  const sk = doll.skinTone || '#fde8d0';
+  const sk2 = shade(sk,-22);
+  const sk4 = shade(sk,18);
+  const hair   = HAIRS.find(x=>x.id===doll.hair.id)   || HAIRS[0];
+  const makeup = MAKEUPS.find(x=>x.id===doll.makeup.id) || MAKEUPS[0];
+  const outfit = OUTFITS.find(x=>x.id===doll.outfit.id) || OUTFITS[0];
+  const hc = doll.hair.color;
+  const mc = doll.makeup.color;
+  const oc = doll.outfit.color;
+  const s = shade;
+
+  return `<svg viewBox="0 0 100 215" xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
+  <defs>
+    <radialGradient id="${id}fG" cx="38%" cy="30%" r="68%">
+      <stop offset="0%" stop-color="${sk4}"/>
+      <stop offset="45%" stop-color="${sk}"/>
+      <stop offset="100%" stop-color="${sk2}"/>
+    </radialGradient>
+    <radialGradient id="${id}bG" cx="35%" cy="18%" r="72%">
+      <stop offset="0%" stop-color="${shade(sk,14)}"/>
+      <stop offset="60%" stop-color="${sk}"/>
+      <stop offset="100%" stop-color="${sk2}"/>
+    </radialGradient>
+    <radialGradient id="${id}eG" cx="35%" cy="32%" r="65%">
+      <stop offset="0%" stop-color="#7a5a50"/>
+      <stop offset="100%" stop-color="#1a0a00"/>
+    </radialGradient>
+    <clipPath id="${id}fc">
+      <ellipse cx="50" cy="51" rx="26" ry="30"/>
+    </clipPath>
+    <!-- clip olho esquerdo — alinhado exatamente com os olhos brancos (cx=38, cy=53) -->
+    <clipPath id="${id}el">
+      <ellipse cx="38" cy="53" rx="9.5" ry="8.5"/>
+    </clipPath>
+    <!-- clip olho direito — alinhado exatamente com os olhos brancos (cx=62, cy=53) -->
+    <clipPath id="${id}er">
+      <ellipse cx="62" cy="53" rx="9.5" ry="8.5"/>
+    </clipPath>
+    <filter id="${id}sh" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3.5" flood-color="rgba(45,0,80,.20)"/>
+    </filter>
+    <filter id="${id}hd" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="1.5" dy="3" stdDeviation="3.5" flood-color="rgba(30,0,51,.22)"/>
+    </filter>
+  </defs>
+
+  <ellipse cx="50" cy="212" rx="23" ry="5" fill="rgba(30,0,51,.18)"/>
+  ${outfit.id!=='o3'?`<rect x="33" y="163" width="14" height="48" rx="7" fill="url(#${id}bG)"/>
+  <rect x="53" y="163" width="14" height="48" rx="7" fill="url(#${id}bG)"/>
+  <rect x="36" y="165" width="5" height="42" rx="2.5" fill="${sk4}" opacity=".25"/>
+  <rect x="56" y="165" width="5" height="42" rx="2.5" fill="${sk4}" opacity=".25"/>`:''}
+  ${outfit.draw(oc, s, sk)}
+  <rect x="40" y="80" width="20" height="20" rx="9" fill="url(#${id}bG)"/>
+  <rect x="42" y="81" width="7" height="17" rx="3" fill="${sk4}" opacity=".22"/>
+  <ellipse cx="50" cy="98" rx="10" ry="3.5" fill="${sk2}" opacity=".22"/>
+  ${hair.drawBack(hc, s, id)}
+  <ellipse cx="24" cy="53" rx="5.5" ry="6.5" fill="${sk}" stroke="${sk2}" stroke-width=".7"/>
+  <ellipse cx="25.5" cy="53" rx="2.8" ry="4.2" fill="${shade(sk,-10)}" opacity=".42"/>
+  <ellipse cx="76" cy="53" rx="5.5" ry="6.5" fill="${sk}" stroke="${sk2}" stroke-width=".7"/>
+  <ellipse cx="74.5" cy="53" rx="2.8" ry="4.2" fill="${shade(sk,-10)}" opacity=".42"/>
+  <ellipse cx="50" cy="51" rx="26.5" ry="30" fill="url(#${id}fG)" filter="url(#${id}hd)"/>
+  <ellipse cx="50" cy="51" rx="26.5" ry="30" fill="none" stroke="${sk2}" stroke-width=".6" opacity=".3"/>
+  <ellipse cx="30" cy="40" rx="5.5" ry="15" fill="${sk4}" opacity=".22" transform="rotate(-14,30,40)"/>
+  <ellipse cx="44" cy="26" rx="10" ry="6" fill="${sk4}" opacity=".18"/>
+  <ellipse cx="70" cy="52" rx="4" ry="18" fill="${sk2}" opacity=".12"/>
+  <ellipse cx="50" cy="78" rx="20" ry="5" fill="${sk2}" opacity=".18"/>
+  <path d="M31 43 Q38.5 39 45 43" stroke="#3a2518" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M55 43 Q61.5 39 69 43" stroke="#3a2518" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- olhos brancos -->
+  <ellipse cx="38" cy="53" rx="9.5" ry="8.5" fill="white"/>
+  <ellipse cx="62" cy="53" rx="9.5" ry="8.5" fill="white"/>
+  <!-- íris -->
+  <circle cx="38" cy="54" r="6.2" fill="url(#${id}eG)"/>
+  <circle cx="62" cy="54" r="6.2" fill="url(#${id}eG)"/>
+  <circle cx="38" cy="54" r="5.2" fill="#5c4a8a" opacity=".55"/>
+  <circle cx="62" cy="54" r="5.2" fill="#5c4a8a" opacity=".55"/>
+  <!-- pupila -->
+  <circle cx="38" cy="54.5" r="3.4" fill="#0f0a00"/>
+  <circle cx="62" cy="54.5" r="3.4" fill="#0f0a00"/>
+  <!-- brilho -->
+  <circle cx="40" cy="52" r="2.1" fill="white" opacity=".92"/>
+  <circle cx="64" cy="52" r="2.1" fill="white" opacity=".92"/>
+  <circle cx="39" cy="56" r=".9" fill="white" opacity=".42"/>
+  <circle cx="63" cy="56" r=".9" fill="white" opacity=".42"/>
+
+  <!-- CÍLIOS — desenhados sobre tudo, na borda superior dos olhos (y≈50) -->
+  <path d="M29.5 50 Q38 45.5 46.5 50" stroke="#1a0a00" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <path d="M53.5 50 Q62 45.5 70.5 50" stroke="#1a0a00" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <line x1="31" y1="50" x2="29" y2="46" stroke="#1a0a00" stroke-width="1.3" stroke-linecap="round"/>
+  <line x1="35" y1="47.5" x2="34" y2="43.5" stroke="#1a0a00" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="42" y1="47.5" x2="43" y2="43.5" stroke="#1a0a00" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="46.5" y1="50" x2="48" y2="46" stroke="#1a0a00" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="55" y1="50" x2="53" y2="46" stroke="#1a0a00" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="59" y1="47.5" x2="58" y2="43.5" stroke="#1a0a00" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="66" y1="47.5" x2="67" y2="43.5" stroke="#1a0a00" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="70.5" y1="50" x2="72" y2="46" stroke="#1a0a00" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- nariz -->
+  <ellipse cx="46.5" cy="63" rx="1.6" ry="2" fill="${sk2}" opacity=".36"/>
+  <ellipse cx="53.5" cy="63" rx="1.6" ry="2" fill="${sk2}" opacity=".36"/>
+  <path d="M46 64.5 Q50 66 54 64.5" stroke="${sk2}" stroke-width=".8" fill="none" opacity=".4"/>
+
+  <!-- maquiagem + boca (dentro do clip da face) -->
+  <g clip-path="url(#${id}fc)">
+    <path d="M42 72 Q50 77.5 58 72 Q50 79.5 42 72Z" fill="${shade(sk,-14)}" opacity=".35"/>
+    <path d="M42 72 Q46 70.5 50 70 Q54 70.5 58 72" stroke="#c08070" stroke-width="1" fill="none" stroke-linecap="round" opacity=".5"/>
+    <ellipse cx="26" cy="63" rx="7" ry="5" fill="#ffb7c5" opacity=".22"/>
+    <ellipse cx="74" cy="63" rx="7" ry="5" fill="#ffb7c5" opacity=".22"/>
+    ${makeup.draw(mc, `${id}el`, `${id}er`)}
+  </g>
+
+  ${hair.drawFront(hc, s, id)}
+</svg>`;
+}
+
+/* ══════════════════════════════════════════
+   MINI PREVIEWS
+══════════════════════════════════════════ */
+function miniHair(item, color){
+  const s = shade;
+  const id = uid();
+  return `<svg viewBox="14 -2 72 60" xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+    <defs>
+      <radialGradient id="${id}fg" cx="40%" cy="35%" r="65%">
+        <stop offset="0%" stop-color="#fde8d0"/>
+        <stop offset="100%" stop-color="#d4a876"/>
+      </radialGradient>
+      <radialGradient id="${id}eg" cx="35%" cy="35%" r="65%">
+        <stop offset="0%" stop-color="#6b4a3f"/>
+        <stop offset="100%" stop-color="#1a0a00"/>
+      </radialGradient>
+    </defs>
+    ${item.drawBack(color, s, id)}
+    <ellipse cx="50" cy="36" rx="22" ry="24" fill="url(#${id}fg)"/>
+    <ellipse cx="41" cy="36" rx="7" ry="6.5" fill="white"/>
+    <ellipse cx="59" cy="36" rx="7" ry="6.5" fill="white"/>
+    <circle cx="41" cy="36.5" r="4" fill="url(#${id}eg)"/>
+    <circle cx="59" cy="36.5" r="4" fill="url(#${id}eg)"/>
+    <circle cx="42.5" cy="35" r="1.6" fill="white" opacity=".92"/>
+    <circle cx="60.5" cy="35" r="1.6" fill="white" opacity=".92"/>
+    <path d="M34 33 Q41 29 48 33" stroke="#1a0a00" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M52 33 Q59 29 66 33" stroke="#1a0a00" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M44 47 Q50 51 56 47" stroke="#d47a62" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    ${item.drawFront(color, s, id)}
+  </svg>`;
+}
+
+function miniMakeup(item, color, skinTone){
+  const sk = skinTone || '#fde8d0';
+  const id = uid();
+  return `<svg viewBox="20 28 60 54" xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+    <defs>
+      <radialGradient id="${id}mg" cx="40%" cy="35%" r="65%">
+        <stop offset="0%" stop-color="${shade(sk,18)}"/>
+        <stop offset="100%" stop-color="${sk}"/>
+      </radialGradient>
+      <radialGradient id="${id}eg" cx="35%" cy="35%" r="65%">
+        <stop offset="0%" stop-color="#6b4a3f"/>
+        <stop offset="100%" stop-color="#1a0a00"/>
+      </radialGradient>
+      <clipPath id="${id}mfc">
+        <ellipse cx="50" cy="52" rx="25" ry="29"/>
+      </clipPath>
+      <!-- clips dos olhos alinhados com os olhos do miniMakeup (cy=52) -->
+      <clipPath id="${id}mel">
+        <ellipse cx="38" cy="52" rx="8.5" ry="8"/>
+      </clipPath>
+      <clipPath id="${id}mer">
+        <ellipse cx="62" cy="52" rx="8.5" ry="8"/>
+      </clipPath>
+    </defs>
+    <ellipse cx="50" cy="52" rx="24" ry="28" fill="url(#${id}mg)"/>
+    <ellipse cx="38" cy="52" rx="8.5" ry="8" fill="white"/>
+    <ellipse cx="62" cy="52" rx="8.5" ry="8" fill="white"/>
+    <circle cx="38" cy="52.5" r="5.5" fill="url(#${id}eg)"/>
+    <circle cx="62" cy="52.5" r="5.5" fill="url(#${id}eg)"/>
+    <circle cx="38" cy="52.5" r="3.5" fill="#0f0a00"/>
+    <circle cx="62" cy="52.5" r="3.5" fill="#0f0a00"/>
+    <circle cx="39.5" cy="51" r="2" fill="white" opacity=".92"/>
+    <circle cx="63.5" cy="51" r="2" fill="white" opacity=".92"/>
+    <g clip-path="url(#${id}mfc)">
+      <path d="M43 73 Q50 78 57 73 Q50 80 43 73Z" fill="${shade(sk,-14)}" opacity=".35"/>
+      ${item.draw(color, `${id}mel`, `${id}mer`)}
+    </g>
+    <!-- cílios sobre a maquiagem -->
+    <path d="M30 49 Q38 44 46 49" stroke="#1a0a00" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <path d="M54 49 Q62 44 70 49" stroke="#1a0a00" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <line x1="31" y1="49" x2="30" y2="45.5" stroke="#1a0a00" stroke-width="1.1" stroke-linecap="round"/>
+    <line x1="35" y1="46.5" x2="34.5" y2="43" stroke="#1a0a00" stroke-width="1" stroke-linecap="round"/>
+    <line x1="42" y1="46" x2="42.5" y2="42.5" stroke="#1a0a00" stroke-width="1" stroke-linecap="round"/>
+    <line x1="46" y1="49" x2="47.5" y2="45.5" stroke="#1a0a00" stroke-width="1" stroke-linecap="round"/>
+    <line x1="55" y1="49" x2="53.5" y2="45.5" stroke="#1a0a00" stroke-width="1" stroke-linecap="round"/>
+    <line x1="59" y1="46.5" x2="58.5" y2="43" stroke="#1a0a00" stroke-width="1" stroke-linecap="round"/>
+    <line x1="66" y1="46" x2="66.5" y2="42.5" stroke="#1a0a00" stroke-width="1" stroke-linecap="round"/>
+    <line x1="70" y1="49" x2="71.5" y2="45.5" stroke="#1a0a00" stroke-width="1" stroke-linecap="round"/>
+    <path d="M31 42 Q38 38.5 45 42" stroke="#3a2518" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M55 42 Q62 38.5 69 42" stroke="#3a2518" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  </svg>`;
+}
+
+function miniOutfit(item, color){
+  const s = shade;
+  const sk = '#fde8d0';
+  return `<svg viewBox="14 88 72 118" xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+    ${item.draw(color, s, sk)}
+  </svg>`;
+}
+
+/* ══════════════════════════════════════════
+   STATE
+══════════════════════════════════════════ */
+const mkDoll = () => ({
+  name:'Sem nome', skinTone:'#fde8d0',
+  hair:{id:'h1',color:'#5c2c0a'},
+  makeup:{id:'m0',color:'#f7c5d8'},
+  outfit:{id:'o1',color:'#37474f'}
+});
+
+let G = {
+  dollIdx:0, tab:'hair',
+  dolls:[mkDoll(), mkDoll()],
+  gallery:[], galleryIdx:null,
+  resetIdx: null
+};
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded',()=>{
+  loadState();
+  buildStars();
+  renderHomePreviews();
+  renderSelectCards();
+  renderGallery();
+  document.getElementById('name-input').addEventListener('keydown',e=>{if(e.key==='Enter')saveName();});
+  ['modal-name','modal-saved','modal-detail','modal-reset'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.addEventListener('click',e=>{if(e.target===el)el.style.display='none';});
+  });
+});
+
+function loadState(){
+  try{
+    const d=JSON.parse(localStorage.getItem('dollStudio3D')||'{}');
+    if(d.dolls) G.dolls=d.dolls;
+    if(d.gallery) G.gallery=d.gallery;
+  }catch(e){}
+}
+function saveState(){
+  try{localStorage.setItem('dollStudio3D',JSON.stringify({dolls:G.dolls,gallery:G.gallery}));}catch(e){}
+}
+
+/* ══════════════════════════════════════════
+   NAV
+══════════════════════════════════════════ */
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');});
+  const el=document.getElementById(id);
+  if(el){el.classList.add('active');el.classList.add('fx-in');setTimeout(()=>el.classList.remove('fx-in'),400);}
+  if(id==='screen-select') renderSelectCards();
+  if(id==='screen-gallery') renderGallery();
+}
+
+/* ══════════════════════════════════════════
+   HOME
+══════════════════════════════════════════ */
+function buildStars(){
+  const c=document.getElementById('home-stars');
+  if(!c) return;
+  for(let i=0;i<60;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    const sz=1+Math.random()*3;
+    s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${sz}px;height:${sz}px;--d:${2+Math.random()*4}s;--dl:${Math.random()*4}s`;
+    c.appendChild(s);
+  }
+}
+function renderHomePreviews(){
+  const c=document.getElementById('home-dolls-preview');
+  if(!c) return;
+  c.innerHTML=G.dolls.map(d=>`<div class="home-doll-wrap">${buildDoll(d,90,180)}</div>`).join('');
+}
+
+/* ══════════════════════════════════════════
+   SELECT
+══════════════════════════════════════════ */
+function renderSelectCards(){
+  for(let i=0;i<2;i++){
+    const p=document.getElementById(`prev${i}`);
+    if(p) p.innerHTML=buildDoll(G.dolls[i],110,220);
+    const n=document.getElementById(`cname${i}`);
+    if(n) n.textContent=G.dolls[i].name;
+  }
+}
+
+/* ══════════════════════════════════════════
+   RESET / DELETE DOLL (no SELECT)
+══════════════════════════════════════════ */
+function confirmResetDoll(i){
+  G.resetIdx = i;
+  document.getElementById('reset-msg').textContent =
+    `Isso vai apagar toda a personalização da Boneca ${i+1} ("${G.dolls[i].name}") e voltar ao padrão. Tem certeza?`;
+  document.getElementById('modal-reset').style.display='flex';
+}
+function doResetDoll(){
+  if(G.resetIdx !== null){
+    G.dolls[G.resetIdx] = mkDoll();
+    saveState();
+    renderSelectCards();
+    renderHomePreviews();
+    closeModal('modal-reset');
+    G.resetIdx = null;
+  }
+}
+
+/* ══════════════════════════════════════════
+   EDITOR
+══════════════════════════════════════════ */
+function selectDoll(i){
+  G.dollIdx=i; G.tab='hair';
+  updateEdName();
+  renderCanvas();
+  switchTab('hair');
+  goTo('screen-editor');
+}
+const D = ()=>G.dolls[G.dollIdx];
+function updateEdName(){ document.getElementById('ed-name').textContent='✏️ '+D().name; }
+function renderCanvas(){ document.getElementById('doll-canvas').innerHTML=buildDoll(D(),180,330); }
+
+function switchTab(t){
+  G.tab=t;
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('tab-'+t).classList.add('on');
+  renderCatalog();
+}
+function renderCatalog(){
+  const d=D();
+  if(G.tab==='hair') renderHairCat(d);
+  else if(G.tab==='makeup') renderMakeupCat(d);
+  else renderOutfitCat(d);
+}
+function refresh(){ renderCanvas(); renderCatalog(); renderSelectCards(); saveState(); }
+
+function changeSkin(t){ D().skinTone=t; refresh(); }
+function pickHair(id){ D().hair.id=id; refresh(); }
+function pickHairColor(c){ D().hair.color=c; refresh(); }
+function pickMakeup(id){
+  D().makeup.id=id;
+  const m=MAKEUPS.find(x=>x.id===id);
+  if(m) D().makeup.color=m.colors[0];
+  refresh();
+}
+function pickMakeupColor(c){ D().makeup.color=c; refresh(); }
+function pickOutfit(id){
+  D().outfit.id=id;
+  const o=OUTFITS.find(x=>x.id===id);
+  if(o) D().outfit.color=o.colors[0];
+  refresh();
+}
+function pickOutfitColor(c){ D().outfit.color=c; refresh(); }
+
+function renderHairCat(d){
+  let h=`<div class="sec-title">🌸 Tom de Pele</div><div class="swatches">`;
+  SKINS.forEach(t=>h+=`<div class="swatch${d.skinTone===t?' on':''}" style="background:${t}" onclick="changeSkin('${t}')"></div>`);
+  h+=`</div><div class="sec-title">💇 Penteado</div><div class="item-grid">`;
+  HAIRS.forEach(item=>h+=`<div class="item${d.hair.id===item.id?' on':''}" onclick="pickHair('${item.id}')">
+    <div class="item-img">${miniHair(item,d.hair.color)}</div>
+    <div class="item-label">${item.name}</div></div>`);
+  h+=`</div>`;
+  const cur=HAIRS.find(x=>x.id===d.hair.id);
+  if(cur){
+    h+=`<div class="sec-title">🎨 Cor do Cabelo</div><div class="swatches">`;
+    cur.colors.forEach(c=>h+=`<div class="swatch${d.hair.color===c?' on':''}" style="background:${c}" onclick="pickHairColor('${c}')"></div>`);
+    h+=`</div>`;
+  }
+  document.getElementById('catalog').innerHTML=h;
+}
+
+function renderMakeupCat(d){
+  let h=`<div class="sec-title">💄 Estilo de Maquiagem</div><div class="item-grid">`;
+  MAKEUPS.forEach(item=>h+=`<div class="item${d.makeup.id===item.id?' on':''}" onclick="pickMakeup('${item.id}')">
+    <div class="item-img">${miniMakeup(item,d.makeup.color,d.skinTone)}</div>
+    <div class="item-label">${item.name}</div></div>`);
+  h+=`</div>`;
+  if(d.makeup.id!=='m0'){
+    const cur=MAKEUPS.find(x=>x.id===d.makeup.id);
+    if(cur){
+      h+=`<div class="sec-title">🎨 Cor da Maquiagem</div><div class="swatches">`;
+      cur.colors.forEach(c=>h+=`<div class="swatch${d.makeup.color===c?' on':''}" style="background:${c}" onclick="pickMakeupColor('${c}')"></div>`);
+      h+=`</div>`;
+    }
+  }
+  document.getElementById('catalog').innerHTML=h;
+}
+
+function renderOutfitCat(d){
+  let h=`<div class="sec-title">👗 Roupa</div><div class="item-grid">`;
+  OUTFITS.forEach(item=>h+=`<div class="item${d.outfit.id===item.id?' on':''}" onclick="pickOutfit('${item.id}')">
+    <div class="item-img">${miniOutfit(item,d.outfit.color)}</div>
+    <div class="item-label">${item.name}</div></div>`);
+  h+=`</div>`;
+  const cur=OUTFITS.find(x=>x.id===d.outfit.id);
+  if(cur){
+    h+=`<div class="sec-title">🎨 Cor da Roupa</div><div class="swatches">`;
+    cur.colors.forEach(c=>h+=`<div class="swatch${d.outfit.color===c?' on':''}" style="background:${c}" onclick="pickOutfitColor('${c}')"></div>`);
+    h+=`</div>`;
+  }
+  document.getElementById('catalog').innerHTML=h;
+}
+
+/* ══════════════════════════════════════════
+   NOME
+══════════════════════════════════════════ */
+function openNameModal(){
+  const inp=document.getElementById('name-input');
+  inp.value=D().name==='Sem nome'?'':D().name;
+  document.getElementById('modal-name').style.display='flex';
+  setTimeout(()=>inp.focus(),120);
+}
+function saveName(){
+  const v=document.getElementById('name-input').value.trim()||'Sem nome';
+  D().name=v; updateEdName(); saveState(); closeModal('modal-name');
+}
+
+/* ══════════════════════════════════════════
+   SALVAR NA GALERIA
+══════════════════════════════════════════ */
+function saveDoll(){
+  const d=D();
+  if(d.name==='Sem nome'){openNameModal();return;}
+  const dt=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});
+  G.gallery.unshift({doll:JSON.parse(JSON.stringify(d)),savedAt:dt});
+  saveState();
+  renderHomePreviews();
+  document.getElementById('saved-msg').textContent=`"${d.name}" foi salva na galeria! 💖`;
+  document.getElementById('modal-saved').style.display='flex';
+  spawnHearts();
+}
+
+/* ══════════════════════════════════════════
+   GALERIA
+══════════════════════════════════════════ */
+function renderGallery(){
+  const grid=document.getElementById('gallery-grid');
+  const empty=document.getElementById('gallery-empty');
+  if(!G.gallery.length){
+    grid.style.display='none'; empty.style.display='flex';
+    const ed=document.getElementById('empty-doll');
+    if(ed) ed.innerHTML=buildDoll(mkDoll(),90,180);
+    return;
+  }
+  grid.style.display='grid'; empty.style.display='none';
+  grid.innerHTML=G.gallery.map((e,i)=>`
+    <div class="gallery-card" onclick="openDetail(${i})">
+      <div class="gallery-thumb">${buildDoll(e.doll,90,160)}</div>
+      <div class="gallery-info">
+        <div class="gallery-name">${e.doll.name}</div>
+        <div class="gallery-date">${e.savedAt}</div>
+      </div>
+    </div>`).join('');
+}
+function openDetail(i){
+  G.galleryIdx=i;
+  const e=G.gallery[i];
+  document.getElementById('detail-doll').innerHTML=buildDoll(e.doll,120,220);
+  document.getElementById('detail-name').textContent=e.doll.name;
+  document.getElementById('detail-date').textContent='Salva em: '+e.savedAt;
+  document.getElementById('modal-detail').style.display='flex';
+}
+function deleteDoll(){
+  if(G.galleryIdx!==null){G.gallery.splice(G.galleryIdx,1);saveState();closeModal('modal-detail');renderGallery();}
+}
+function closeModal(id){document.getElementById(id).style.display='none';}
+
+/* ══════════════════════════════════════════
+   EFEITOS
+══════════════════════════════════════════ */
+function spawnHearts(){
+  const opts=['💖','💕','💗','🌸','✨','⭐','🎀'];
+  for(let i=0;i<14;i++){
+    setTimeout(()=>{
+      const h=document.createElement('div');
+      h.className='float-heart';
+      h.textContent=opts[~~(Math.random()*opts.length)];
+      h.style.left=(15+Math.random()*70)+'%';
+      h.style.bottom='120px';
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(),2100);
+    },i*100);
+  }
+}
+</script>
+</body>
+</html>
